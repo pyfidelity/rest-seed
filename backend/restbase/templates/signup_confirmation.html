@@ -1,0 +1,13 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+<body>
+
+  <h1> Hello <tal:user replace="user.name"/>, </h1>
+
+  <p> Thank you for signing up with our service. Please confirm your account
+      creation by clicking the following confirmation link. </p>
+
+  <p> <a href="${url}"><strong>Confirm account creation</strong></a> </p>
+
+</body>
+</html>

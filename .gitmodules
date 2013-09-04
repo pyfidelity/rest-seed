@@ -1,0 +1,3 @@
+[submodule "backend/src/cornice"]
+	path = backend/src/cornice
+	url = git@github.com:mozilla-services/cornice.git
