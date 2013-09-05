@@ -50,5 +50,7 @@ setup(name=name,
     entry_points="""
         [paste.app_factory]
         main = %s:main
+        [pytest11]
+        restbase = restbase.testing
     """ % name,
 )
