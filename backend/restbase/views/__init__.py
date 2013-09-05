@@ -4,7 +4,7 @@ from pyramid.response import Response
 from pyramid.view import forbidden_view_config
 
 
-from ..models import get_content, db_session, Root
+from ..models import db_session, Root
 
 
 @forbidden_view_config(accept='application/json')
@@ -12,18 +12,23 @@ def forbidden_view(request):
     return Response(body='Forbidden', status='403 Forbidden')
 
 
-def id_factory(request):
-    """ Returns an instance of ``models.Content`` for the given ``id`` in
-        the request's matchdict. If no item with the id in question exists,
-        ``NotFound`` is raised. """
-    if request.matchdict is not None and 'id' in request.matchdict:
-        context = get_content(int(request.matchdict['id']))
-        if context is None:
-            raise NotFound()
-        return context
-    return Root()
+def id_factory(model):
+    """ Returns a factory for the given model, which in turn will return
+        the instance of that model with the ``id`` taken from the request's
+        matchdict.  If no item with the id in question exists, ``NotFound``
+        is raised. """
+    def factory(request):
+        if request.matchdict is not None and 'id' in request.matchdict:
+            cid = int(request.matchdict['id'])
+            context = model.query.filter_by(id=cid).first()
+            if context is None:
+                raise NotFound()
+            return context
+        return Root()
+    return factory
 
 
+# TODO: rename into `Resource`
 class Content(object):
     """ A REST resource collection for content objects.
 
@@ -84,4 +89,4 @@ def rest_resource(model):
     collection_path = model.collection_path()
     return resource(collection_path=collection_path,
                     path='%s/{id}' % collection_path,
-                    factory=id_factory, schema=model.schema)
+                    factory=id_factory(model), schema=model.schema)
