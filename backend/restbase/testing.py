@@ -89,12 +89,6 @@ def db_session(config, connection, request):
     return db_session()
 
 
-def setup_app(config):
-    # TODO: can we use the given `Configurator` directly?
-    from . import configure
-    return configure({}, **config.registry.settings).make_wsgi_app()
-
-
 class TestApp(TestAppBase):
 
     def get_json(self, url, params=None, headers=None, *args, **kw):
@@ -105,18 +99,24 @@ class TestApp(TestAppBase):
 
 
 @fixture
-def app(config):
-    """ Returns WSGI application wrapped in WebTest's testing interface. """
-    return TestApp(setup_app(config))
+def package():
+    from .utils import get_distribution
+    return __import__(get_distribution().project_name)
 
 
 @fixture
-def browser(db_session, config, request):
+def app(package, config):
+    """ Returns WSGI application wrapped in WebTest's testing interface. """
+    return package.configure({}, **config.registry.settings).make_wsgi_app()
+
+
+@fixture
+def browser(db_session, app, request):
     """ Returns an instance of `webtest.TestApp`.  The `user` pytest marker
         (`pytest.mark.user`) can be used to pre-authenticate the browser
         with the given login name: `@user('admin')`. """
     extra_environ = dict(HTTP_HOST='example.com')
-    browser = TestApp(setup_app(config), extra_environ=extra_environ)
+    browser = TestApp(app, extra_environ=extra_environ)
     if 'user' in request.keywords:
         # set auth cookie directly on the browser instance...
         name = request.keywords['user'].args[0]
