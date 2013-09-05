@@ -40,6 +40,38 @@ class Base(object):
     def __tablename__(cls):
         return cls.__name__.lower()
 
+    @property
+    def columns(self):
+        """ Return names of all known database columns. """
+        return self.__table__.columns.keys()
+
+    def __iter__(self):
+        """ Iterate over all columns and return existing values. """
+        values = vars(self)
+        for attr in self.columns:
+            if attr in values:
+                yield attr, values[attr]
+
+    def __json__(self, request=None):
+        return dict(self)
+
+    def update(self, **data):
+        """ Iterate over all columns and set values from data. """
+        for attr in self.columns:
+            if attr in data and data[attr] is not null:
+                setattr(self, attr, data[attr])
+
+    def __repr__(self):     # pragma: no cover
+        return '<%s %s>' % (self.__class__.__name__, self.id)
+
+    @classmethod
+    def collection_path(cls):
+        return '/-/{0}s'.format(cls.__name__.lower())
+
+    @property
+    def path(self):
+        return '{0}/{1}'.format(self.collection_path(), self.id)
+
 
 metadata = MetaData()
 db_session = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
@@ -67,8 +99,8 @@ class File(Base):
     mimetype = Column(String())
     size = Column(Integer())
 
-    def __init__(self, db_session=None, **kw):
-        self.update(**kw)
+    def __init__(self, db_session=None, **data):
+        self.update(**data)
         if db_session is not None:
             db_session.add(self)
             db_session.flush()
@@ -134,9 +166,7 @@ class Content(Base):
 
     def update(self, touch=True, **data):
         """ Iterate over all columns and set values from data. """
-        for attr in self.__mapper__.columns.keys():
-            if attr in data and data[attr] is not null:
-                setattr(self, attr, data[attr])
+        super(Content, self).update(**data)
         if touch and 'modification_date' not in data:
             self.modification_date = datetime.now()
 
@@ -146,16 +176,5 @@ class Content(Base):
                     creation_date=iso(self.creation_date),
                     modification_date=iso(self.modification_date))
 
-    def __repr__(self):     # pragma: no cover
-        return '<%s %s>' % (self.__class__.__name__, self.id)
-
     def __eq__(self, other):
         return isinstance(other, Content) and self.id == other.id
-
-    @classmethod
-    def collection_path(cls):
-        return '/-/{0}s'.format(cls.__name__.lower())
-
-    @property
-    def path(self):
-        return '{0}/{1}'.format(self.collection_path(), self.id)
