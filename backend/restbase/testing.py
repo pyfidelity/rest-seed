@@ -7,11 +7,6 @@ from py.test import mark
 from urllib import unquote
 
 
-# py.test markers (see http://pytest.org/latest/example/markers.html)
-user = mark.user
-xfail = mark.xfail
-
-
 def as_dict(content, **kw):
     return dict(loads(render('json', content, DummyRequest())), **kw)
 
