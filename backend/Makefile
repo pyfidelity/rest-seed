@@ -1,6 +1,5 @@
 # convenience makefile to set up the backend
 
-name = $(shell python setup.py --name)
 version = 2.7
 
 all: bin/pserve initdb
@@ -17,7 +16,8 @@ bin/pserve bin/py.test: bin/python bin/pip setup.py
 bin/python bin/pip:
 	virtualenv-$(version) .
 
-initdb:
+initdb: name = $(shell bin/python setup.py --name)
+initdb: bin/python
 	@psql -c "" $(name) 2> /dev/null || createdb $(name) -E utf8 -T template0
 
 clean:
