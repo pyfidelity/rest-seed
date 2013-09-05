@@ -28,9 +28,10 @@ class Principal(models.Base):
 
     id = Column(Integer, primary_key=True)
     active = Column(Boolean)
-    name = Column(Unicode())
     email = Column(Unicode(100), nullable=False, unique=True)
     password = Column(Unicode(100))
+    firstname = Column(Unicode())
+    lastname = Column(Unicode())
     creation_date = Column(DateTime(), nullable=False)
     last_login_date = Column(DateTime())
 
@@ -44,17 +45,23 @@ class Principal(models.Base):
             db_session.flush()
 
     def __repr__(self):  # pragma: no cover
-        return '<Principal %r>' % (self.name or self.email)
+        return '<Principal %r>' % (self.fullname or self.email)
 
     def update(self, password=None, **data):
         if password is not None:
             self.password = security.hash_password(password)
-        for key in 'email', 'name':
+        for key in 'email', 'firstname', 'lastname':
             if key in data:
                 setattr(self, key, data[key])
 
     def __json__(self, request):
-        return dict(id=self.id, email=self.email, name=self.name)
+        return dict(id=self.id, email=self.email,
+            firstname=self.firstname, lastname=self.lastname)
+
+    @property
+    def fullname(self):
+        """ Build up the user's full name. """
+        return ' '.join(filter(None, [self.firstname, self.lastname]))
 
     def validate_password(self, clear):
         """ Validate the given password and hash. """

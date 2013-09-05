@@ -6,7 +6,7 @@ from .. import testing
 
 @fixture
 def data():
-    return dict(name='Alice Kingsleigh',
+    return dict(firstname='Alice', lastname='Kingsleigh',
         email='alice@example.com', password='hurz')
 
 
@@ -23,7 +23,8 @@ def test_signup_success(browser, url, data):
     assert result.test_app.cookies == {}
     assert principals.Principal.query.count() == count + 1
     user = principals.find_user(data['email'])
-    assert user.name == 'Alice Kingsleigh'
+    assert user.firstname == 'Alice'
+    assert user.lastname == 'Kingsleigh'
 
 
 def test_signup_sends_confirmation_mail(browser, url, data):

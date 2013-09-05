@@ -24,7 +24,8 @@ def email_not_registered(node, param):
 
 class Schema(MappingSchema):
     """ Signup schema for new users. """
-    name = SchemaNode(String())
+    firstname = SchemaNode(String())
+    lastname = SchemaNode(String())
     email = SchemaNode(String(), title=u'Email',
         validator=All(Email(), email_not_registered))
     password = SchemaNode(String())

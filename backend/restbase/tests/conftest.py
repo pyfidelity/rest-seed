@@ -100,4 +100,5 @@ def browser(db_session, config, request):
 def alice(db_session):
     from ..principals import Principal
     return Principal(email=u'alice@foo.com', password=u'alice',
-                     name=u'Alice Kingsleigh', db_session=db_session)
+                     firstname=u'Alice', lastname=u'Kingsleigh',
+                     db_session=db_session)
