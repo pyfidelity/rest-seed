@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
+from pyramid.renderers import JSON
 
 from .models import db_session, metadata
 from .principals import get_user
@@ -18,6 +20,15 @@ def path(service):
     return '/-/{0}'.format(service.lower())
 
 
+def datetime_adapter(obj, request):
+    if obj is not None:
+        return obj.isoformat()
+
+
+json_renderer = JSON()
+json_renderer.add_adapter(datetime, datetime_adapter)
+
+
 def configure(global_config, **settings):
     config = Configurator(settings=settings)
     config.begin()
@@ -25,6 +36,7 @@ def configure(global_config, **settings):
         secret=settings['auth.secret'], hashalg='sha512'))
     config.set_authorization_policy(ACLAuthorizationPolicy())
     config.set_request_property(get_user, name='user', reify=True)
+    config.add_renderer('json', json_renderer)
     config.add_renderer('.html', 'pyramid.chameleon_zpt.renderer_factory')
     config.include('.views.download')
     config.include('cornice')

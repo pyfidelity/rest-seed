@@ -81,11 +81,6 @@ Base.metadata = metadata
 Base.query = db_session.query_property()
 
 
-def iso(date):
-    if date is not None:
-        return date.isoformat()
-
-
 def get_content(id):
     """ Return content instance with the given id (or `None`). """
     return Content.query.filter_by(id=id).first()
@@ -173,8 +168,8 @@ class Content(Base):
     def __json__(self, request):
         return dict(id=self.id, title=self.title,
                     description=self.description,
-                    creation_date=iso(self.creation_date),
-                    modification_date=iso(self.modification_date))
+                    creation_date=self.creation_date,
+                    modification_date=self.modification_date)
 
     def __eq__(self, other):
         return isinstance(other, Content) and self.id == other.id
