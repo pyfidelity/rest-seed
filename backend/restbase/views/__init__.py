@@ -1,4 +1,5 @@
 from cornice.resource import resource, view
+from cornice.schemas import CorniceSchema
 from pyramid.exceptions import NotFound
 from pyramid.response import Response
 from pyramid.view import forbidden_view_config
@@ -59,6 +60,12 @@ class Content(object):
         self.request = request
         self.context = context
 
+    @property
+    def schema(self):
+        if self.request.method in ('POST', 'PUT'):
+            return CorniceSchema.from_colander(self.model.schema)
+        raise AttributeError
+
     @view(renderer='json', permission='create')
     def collection_post(self):
         return self.model(db_session=db_session, **self.request.validated)
@@ -89,4 +96,4 @@ def rest_resource(model):
     collection_path = model.collection_path()
     return resource(collection_path=collection_path,
                     path='%s/{id}' % collection_path,
-                    factory=id_factory(model), schema=model.schema)
+                    factory=id_factory(model))
