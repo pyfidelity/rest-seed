@@ -7,7 +7,7 @@ from pyramid.security import remember
 from pyramid_mailer import get_mailer
 from pyramid.threadlocal import get_current_request
 
-from .. import _, models, principals, security, utils, path
+from .. import _, principals, security, utils, path
 
 
 def email_not_registered(node, param):
@@ -41,7 +41,7 @@ def signup(request):
 
 
 def signup_user(request, **data):
-    user = principals.Principal(db_session=models.db_session, active=False, **data)
+    user = principals.Principal(active=False, **data)
     send_confirmation_mail(user, request)
     return user
 

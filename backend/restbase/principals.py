@@ -35,14 +35,11 @@ class Principal(models.Base):
     creation_date = Column(DateTime(), nullable=False, default=datetime.now)
     last_login_date = Column(DateTime())
 
-    def __init__(self, email, active=True, db_session=None, **data):
+    def __init__(self, email, active=True, **data):
         self.email = email
         self.active = active
-        self.update(**data)
+        self.add(**data)
         self.creation_date = datetime.now()
-        if db_session is not None:
-            db_session.add(self)
-            db_session.flush()
 
     def __repr__(self):  # pragma: no cover
         return '<Principal %r>' % (self.fullname or self.email)

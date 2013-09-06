@@ -55,6 +55,11 @@ class Base(object):
     def __json__(self, request=None):
         return dict(self)
 
+    def add(self, **data):
+        self.update(**data)
+        db_session.add(self)
+        db_session.flush()
+
     def update(self, **data):
         """ Iterate over all columns and set values from data. """
         for attr in self.columns:
@@ -94,11 +99,8 @@ class File(Base):
     mimetype = Column(String())
     size = Column(Integer())
 
-    def __init__(self, db_session=None, **data):
-        self.update(**data)
-        if db_session is not None:
-            db_session.add(self)
-            db_session.flush()
+    def __init__(self, **data):
+        self.add(**data)
 
     def update(self, filename, mimetype=None, data=None, id=None):
         self.filename = filename
@@ -153,11 +155,8 @@ class Content(Base):
     creation_date = Column(DateTime(), nullable=False, default=datetime.now)
     modification_date = Column(DateTime(), nullable=False, default=datetime.now)
 
-    def __init__(self, db_session=None, **data):
-        self.update(**data)
-        if db_session is not None:
-            db_session.add(self)
-            db_session.flush()
+    def __init__(self, **data):
+        self.add(**data)
 
     def update(self, touch=True, **data):
         """ Iterate over all columns and set values from data. """

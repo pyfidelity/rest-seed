@@ -68,7 +68,7 @@ class Content(object):
 
     @view(renderer='json', permission='create')
     def collection_post(self):
-        return self.model(db_session=db_session, **self.request.validated)
+        return self.model(**self.request.validated)
 
     @view(renderer='json', permission='view')
     def collection_get(self):
