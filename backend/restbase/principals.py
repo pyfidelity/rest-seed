@@ -32,7 +32,7 @@ class Principal(models.Base):
     password = Column(Unicode(100))
     firstname = Column(Unicode())
     lastname = Column(Unicode())
-    creation_date = Column(DateTime(), nullable=False)
+    creation_date = Column(DateTime(), nullable=False, default=datetime.now)
     last_login_date = Column(DateTime())
 
     def __init__(self, email, active=True, db_session=None, **data):

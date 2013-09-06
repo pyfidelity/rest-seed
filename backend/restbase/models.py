@@ -150,8 +150,8 @@ class Content(Base):
     owner = Column(Unicode())
     title = Column(Unicode())
     description = Column(UnicodeText())
-    creation_date = Column(DateTime(), default=datetime.now)
-    modification_date = Column(DateTime(), default=datetime.now)
+    creation_date = Column(DateTime(), nullable=False, default=datetime.now)
+    modification_date = Column(DateTime(), nullable=False, default=datetime.now)
 
     def __init__(self, db_session=None, **data):
         self.update(**data)
