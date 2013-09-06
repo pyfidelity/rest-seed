@@ -29,8 +29,15 @@ def id_factory(model):
     return factory
 
 
-# TODO: rename into `Resource`
-class Content(object):
+class Resource(object):
+
+    def __init__(self, context, request):
+        self.request = request
+        self.context = context
+
+
+# TODO: rename into `StandardResource`
+class Content(Resource):
     """ A REST resource collection for content objects.
 
         Every GET returns a JSON representation of the given resource, designed
@@ -55,10 +62,6 @@ class Content(object):
 
         Ideally the client would never post data that contains this key, but
         even if so, it will be ignored. """
-
-    def __init__(self, context, request):
-        self.request = request
-        self.context = context
 
     @property
     def schema(self):
