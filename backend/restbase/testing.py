@@ -50,7 +50,7 @@ def config(request, tmpdir):
 
 
 @fixture(scope='session')
-def connection(request):
+def connection(models, request):
     """ Sets up an SQLAlchemy engine and returns a connection
         to the database.  The connection string used can be overriden
         via the `PGDATABASE` environment variable. """
@@ -98,10 +98,15 @@ class TestApp(TestAppBase):
         return self.get(url, params, headers, *args, **kw)
 
 
-@fixture
+@fixture(scope='session')
 def package():
     from .utils import get_distribution
     return __import__(get_distribution().project_name)
+
+
+@fixture(scope='session')
+def models(package):
+    return __import__(package.__name__ + '.models')
 
 
 @fixture
