@@ -106,7 +106,10 @@ def package():
 
 @fixture(scope='session')
 def models(package):
-    return __import__(package.__name__ + '.models')
+    try:
+        return __import__(package.__name__ + '.models')
+    except ImportError:
+        pass
 
 
 @fixture
