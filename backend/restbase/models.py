@@ -1,8 +1,10 @@
+from base64 import decodestring
 from colander import null
 from datetime import datetime
 from os.path import join, splitext
 from pyramid.security import Allow
 from pyramid.security import Authenticated
+from re import match
 from repoze.filesafe import create_file, open_file
 from sqlalchemy import Column
 from sqlalchemy import DateTime
@@ -108,6 +110,10 @@ class File(Base):
         if data is not None:
             _, extension = splitext(filename)
             self.path = self.generate_path(extension)
+            base64 = match(r'^data:([\w/]+);base64,(.*)', data)
+            if base64 is not None:
+                self.mimetype, data = base64.groups()
+                data = decodestring(data)
             self.size = len(data)
             with create_file(self.filesystem_path, 'wb') as fd:
                 fd.write(data)

@@ -29,6 +29,17 @@ def test_create_file(tmpdir, db_session):
     assert open(testfile.filesystem_path).read() == '123456'
 
 
+def test_create_file_with_base64_data(tmpdir, db_session):
+    data = 'data:video/mp4;base64,MTIzNDU2'     # '123456' base64-encoded
+    testfile = File(data=data, filename=u'test.png')
+    assert testfile.filename == 'test.png'
+    assert testfile.mimetype == 'video/mp4'
+    assert testfile.size == 6
+    commit()
+    testfile = File.query.one()     # refetch to avoid unbound instance
+    assert open(testfile.filesystem_path).read() == '123456'
+
+
 def test_delete_file(testfile, db_session):
     db_session.delete(testfile)
     # the file hasn't yet been deleted...
