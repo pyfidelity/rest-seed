@@ -45,7 +45,7 @@ class Base(object):
     @property
     def columns(self):
         """ Return names of all known database columns. """
-        return self.__table__.columns.keys()
+        return self.__mapper__.columns.keys()
 
     def __iter__(self):
         """ Iterate over all columns and return existing values. """
