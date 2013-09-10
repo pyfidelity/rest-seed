@@ -16,10 +16,11 @@ def factory(request):
 @view_config(route_name='download', permission='view', context=models.File)
 def download(context, request):
     path = open_file(context.filesystem_path).name
+    mimetype = context.mimetype or 'application/octet-stream'
     response = FileResponse(path=path, request=request,
-        content_type=context.mimetype)
-    response.headers['Content-Disposition'] = ('attachment; filename="%s"' %
-        context.filename)
+        content_type=mimetype.encode('utf8'))
+    response.headers['Content-Disposition'] = ('inline; filename="%s"' %
+        context.filename.encode('utf8'))
     return response
 
 
