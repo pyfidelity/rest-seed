@@ -7,10 +7,10 @@ from .. import models
 
 
 def factory(request):
-    context = models.get_content(int(request.matchdict['id']))
+    context = models.File.query.get(int(request.matchdict['id']))
     if context is None:
         raise NotFound()
-    return context.file
+    return context
 
 
 @view_config(route_name='download', permission='view', context=models.File)
