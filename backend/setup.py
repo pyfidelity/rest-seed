@@ -30,6 +30,7 @@ setup(name=name,
         'pyramid_mailer',
         'pyramid_tm',
         'repoze.filesafe',
+        'alembic',
     ],
     extras_require={
         'development': [
