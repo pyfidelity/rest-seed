@@ -8,7 +8,7 @@ all: dist/index.html
 dist/index.html: Gruntfile.js $(grunt) $(angular) $(shell git ls-files app/ )
 	grunt build
 
-$(angular): .bowerrc $(grunt)
+$(angular): .bowerrc bower.json $(grunt)
 	bower install
 
 $(grunt): package.json
