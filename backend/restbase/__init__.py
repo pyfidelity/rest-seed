@@ -40,7 +40,7 @@ def configure(global_config, **settings):
     config.add_renderer('.html', 'pyramid.chameleon_zpt.renderer_factory')
     config.include('.views.download')
     config.include('cornice')
-    config.scan(ignore='.testing')
+    config.scan(ignore=['.testing', '.tests'])
     config.commit()
     return config
 
