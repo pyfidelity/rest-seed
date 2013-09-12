@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
@@ -25,8 +25,14 @@ def datetime_adapter(obj, request):
         return obj.isoformat()
 
 
+def timedelta_adapter(obj, request):
+    if obj is not None:
+        return str(obj)
+
+
 json_renderer = JSON()
 json_renderer.add_adapter(datetime, datetime_adapter)
+json_renderer.add_adapter(timedelta, timedelta_adapter)
 
 
 def configure(global_config, **settings):
