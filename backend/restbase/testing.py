@@ -38,6 +38,8 @@ settings = {
     'auth.secret': 's3crit',
     'pyramid.includes': 'pyramid_mailer.testing',
     'testing': True,
+    'debug': True,
+    'demo': True,
 }
 
 
