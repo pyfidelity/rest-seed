@@ -9,7 +9,7 @@ from sqlalchemy import engine_from_config
 from subprocess import call, Popen, PIPE
 
 
-from restbase.utils import get_distribution
+from restbase.testing import get_distribution
 project_name = get_distribution().project_name
 
 

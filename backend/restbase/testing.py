@@ -1,5 +1,7 @@
 from cookielib import Cookie, parse_ns_headers
 from json import loads
+from os import getcwd
+from pkg_resources import working_set
 from pyramid.renderers import render
 from pyramid.security import remember
 from pyramid.testing import DummyRequest
@@ -10,6 +12,12 @@ from sqlalchemy.exc import OperationalError
 from transaction import abort
 from urllib import unquote
 from webtest import TestApp as TestAppBase
+
+
+def get_distribution():
+    cwd = getcwd()
+    distribution, = [entry for entry in working_set if entry.location == cwd]
+    return distribution
 
 
 def as_dict(content, **kw):
@@ -58,7 +66,8 @@ def connection(models, request):
         via the `PGDATABASE` environment variable. """
     from .models import db_session, metadata
     from .utils import create_db_engine
-    engine = create_db_engine(suffix='_test', **settings)
+    engine = create_db_engine(suffix='_test',
+        project_name=get_distribution().project_name, **settings)
     try:
         connection = engine.connect()
     except OperationalError:
@@ -102,7 +111,6 @@ class TestApp(TestAppBase):
 
 @fixture(scope='session')
 def package():
-    from .utils import get_distribution
     return __import__(get_distribution().project_name)
 
 

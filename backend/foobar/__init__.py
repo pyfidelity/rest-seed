@@ -2,10 +2,7 @@
 # please rename and start hacking...
 
 from transaction import commit
-from restbase import configure as base_configure, db_setup, utils
-
-
-project_name = utils.get_distribution().project_name
+from restbase import configure as base_configure, db_setup
 
 
 def configure(global_config, **settings):
