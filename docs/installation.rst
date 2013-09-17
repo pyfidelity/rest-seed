@@ -12,15 +12,21 @@ The application is based on the `Pyramid framework <http://docs.pylonsproject.or
 Mac OS X
 --------
 
-On Mac OS it's recommended to first install the dependencies using `brew <http://mxcl.github.com/homebrew/>`_::
+On Mac OS it's recommended to first install the dependencies using `brew <http://mxcl.github.com/homebrew/>`_.
 
-    $ brew install postgres python node libpng ruby
+If you want to build the backend::
+
+    $ brew install postgres python
+
+If you want to build the frontend:
+
+    $ brew install node libpng ruby
 
 .. note:: Even though Mac OS X ships with Python2.7 it is highly recommended to use the version provided by brew to avoid changing the system's Python setup.
 
-To build the frontend you need to install the following npm modules. While in theory this could be done locally for this project by its Makefile, in practice it's much(!) easier to simply install them globally like so and be done with it::
+To finish the build of the frontend you need to install the following npm modules. While in theory this could be done locally for this project by its Makefile, in practice it's much(!) easier to simply install them globally like so and be done with it::
 
-    $ npm install -g yeoman generator-angular
+    $ npm install -g yeoman bower grunt-cli generator-angular
 
 
 Bootstrapping
