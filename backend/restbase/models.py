@@ -158,8 +158,8 @@ class Content(Base):
     owner = Column(Unicode())
     title = Column(Unicode())
     description = Column(UnicodeText())
-    creation_date = Column(DateTime(), nullable=False, default=datetime.now)
-    modification_date = Column(DateTime(), nullable=False, default=datetime.now)
+    creation_date = Column(DateTime(), nullable=False, default=datetime.utcnow)
+    modification_date = Column(DateTime(), nullable=False, default=datetime.utcnow)
 
     def __init__(self, **data):
         self.add(**data)
@@ -168,7 +168,7 @@ class Content(Base):
         """ Iterate over all columns and set values from data. """
         super(Content, self).update(**data)
         if touch and 'modification_date' not in data:
-            self.modification_date = datetime.now()
+            self.modification_date = datetime.utcnow()
 
     def __json__(self, request):
         return dict(id=self.id, title=self.title,

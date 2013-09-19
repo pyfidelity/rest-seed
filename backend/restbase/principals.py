@@ -32,14 +32,14 @@ class Principal(models.Base):
     password = Column(Unicode(100))
     firstname = Column(Unicode())
     lastname = Column(Unicode())
-    creation_date = Column(DateTime(), nullable=False, default=datetime.now)
+    creation_date = Column(DateTime(), nullable=False, default=datetime.utcnow)
     last_login_date = Column(DateTime())
 
     def __init__(self, email, active=True, **data):
         self.email = email
         self.active = active
         self.add(**data)
-        self.creation_date = datetime.now()
+        self.creation_date = datetime.utcnow()
 
     def __repr__(self):  # pragma: no cover
         return '<Principal %r>' % (self.fullname or self.email)

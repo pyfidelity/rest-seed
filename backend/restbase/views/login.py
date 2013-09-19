@@ -10,7 +10,7 @@ def valid_user(request):
     password = request.json_body['password']
     user = principals.find_user(login=login)
     if user is not None and user.active and user.validate_password(password):
-        user.last_login_date = datetime.now()
+        user.last_login_date = datetime.utcnow()
         request.response.headers.extend(remember(request, user.id))
         request.user = user
     else:
