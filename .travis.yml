@@ -13,3 +13,5 @@ script:
 notifications:
   irc:
     - "irc.freenode.org#pyfidelity"
+  email:
+    - andi@pyfidelity.com
