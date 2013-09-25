@@ -31,6 +31,7 @@ setup(name=name,
         'pyramid_tm',
         'repoze.filesafe',
         'alembic',
+        'pyramid_chameleon'
     ],
     extras_require={
         'development': [
