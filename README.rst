@@ -1,3 +1,6 @@
+.. image:: https://travis-ci.org/pyfidelity/rest-seed.png
+
+
 ============
 Installation
 ============
