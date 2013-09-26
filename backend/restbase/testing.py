@@ -6,6 +6,7 @@ from pyramid.renderers import render
 from pyramid.security import remember
 from pyramid.testing import DummyRequest
 from pyramid.testing import setUp, tearDown
+from pyramid_mailer import get_mailer
 from pytest import fixture
 from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
@@ -142,3 +143,9 @@ def browser(db_session, app, request):
         for cookie in auth_cookies(str(user.id)):
             browser.cookiejar.set_cookie(cookie)
     return browser
+
+
+@fixture
+def mailer(config):
+    """ Return mock mailer from `pyramid_mailer`. """
+    return get_mailer(DummyRequest())

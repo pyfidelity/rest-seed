@@ -1,5 +1,4 @@
 from pytest import fixture
-from pyramid_mailer import get_mailer
 from pyquery import PyQuery
 from .. import testing
 
@@ -27,9 +26,8 @@ def test_signup_success(browser, url, data):
     assert user.lastname == 'Kingsleigh'
 
 
-def test_signup_sends_confirmation_mail(browser, url, data):
+def test_signup_sends_confirmation_mail(browser, url, data, mailer):
     browser.post_json(url, data)
-    mailer = get_mailer(testing.DummyRequest())
     mail, = mailer.outbox
     assert mail.recipients == [data['email']]
     assert 'Please confirm your account' in mail.html
