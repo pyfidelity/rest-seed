@@ -100,6 +100,6 @@ def test_db_metadata_differences(package):
     del connection
     engine.dispose()
     # now we check whether there are differences and output them if there are
-    diff = unified_diff(create_all_result, alembic_result)
-    assert create_all_result == alembic_result, \
+    diff = unified_diff(alembic_result, create_all_result)
+    assert alembic_result == create_all_result, \
         'Migration output differs:\n' + ''.join(diff)
