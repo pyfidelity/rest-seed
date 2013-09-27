@@ -14,7 +14,7 @@ project_name = get_distribution().project_name
 
 
 # we use our own db for this test, since it will be created and dropped
-db_name = '%s_migration_test' + project_name
+db_name = '%s_migration_test' % project_name
 settings = {
     'sqlalchemy.url': 'postgresql:///' + db_name,
     'testing': True,
