@@ -8,7 +8,6 @@ tests: bin/py.test
 	bin/py.test
 
 bin/pserve bin/py.test: bin/python bin/pip setup.py
-	bin/pip install zope.sqlalchemy --no-deps -i https://pypi.python.org/simple/
 	bin/python setup.py dev
 
 bin/python bin/pip:
