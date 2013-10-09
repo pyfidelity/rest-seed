@@ -4,6 +4,7 @@ python:
   - "2.7"
 install:
   - cd backend
+  - pip install -r requirements.txt
   - python setup.py dev
 script:
   - py.test --tb=native
