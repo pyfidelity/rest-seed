@@ -1,4 +1,7 @@
-.. image:: https://travis-ci.org/pyfidelity/rest-seed.png
+|TravisStatus|
+
+.. |TravisStatus| image:: https://travis-ci.org/pyfidelity/rest-seed.png
+.. _TravisStatus: https://travis-ci.org/pyfidelity/rest-seed
 
 
 ============
