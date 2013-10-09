@@ -21,7 +21,6 @@ cssselect==0.8
 docutils==0.11
 execnet==1.1
 flake8==2.0
-foobar==v1-dev
 html2text==3.200.3
 itsdangerous==0.23
 lxml==3.2.3
