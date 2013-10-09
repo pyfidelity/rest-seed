@@ -1,3 +1,0 @@
-[submodule "backend/src/cornice"]
-	path = backend/src/cornice
-	url = https://github.com/mozilla-services/cornice.git
