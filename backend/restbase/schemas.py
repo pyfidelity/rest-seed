@@ -52,8 +52,12 @@ class FileSchema(MappingSchema):
     mimetype = SchemaNode(String(), missing=None)
 
 
+def MissingOrRequiredNode():
+    return SchemaNode(PossiblyEmptyString(), missing=title_missing,
+        validator=required_validator)
+
+
 class ContentSchema(MappingSchema):
     id = SchemaNode(Integer(), missing=None)
-    title = SchemaNode(PossiblyEmptyString(), missing=title_missing,
-                       validator=required_validator)
+    title = MissingOrRequiredNode()
     description = SchemaNode(String(), missing=null)
