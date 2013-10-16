@@ -75,7 +75,7 @@ class Content(Resource):
 
     @view(renderer='json', permission='view')
     def collection_get(self):
-        NotImplemented
+        return self.model.query.all()
 
     @view(renderer='json', permission='edit')
     def put(self):
