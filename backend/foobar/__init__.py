@@ -13,7 +13,7 @@ def configure(global_config, **settings):
     return config
 
 
-def main(global_config, **settings):
+def main(global_config, **settings):        # pragma: no cover, tests have own app setup
     config = configure(global_config, **settings)
     db_setup(**settings)
     commit()
