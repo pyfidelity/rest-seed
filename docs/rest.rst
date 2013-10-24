@@ -1,7 +1,7 @@
 Restful Services
 ----------------
 
-The backend is entriely RESTful and exposes its resources using the `cornice <https://cornice.readthedocs.org/en/latest/>`_ library along with the `colander <http://docs.pylonsproject.org/projects/colander/en/latest/>`_ library for schemas and validation.
+The backend is entirely RESTful and exposes its resources using the `cornice <https://cornice.readthedocs.org/en/latest/>`_ library along with the `colander <http://docs.pylonsproject.org/projects/colander/en/latest/>`_ library for schemas and validation.
 
 Schemas and validation
 ======================
