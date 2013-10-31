@@ -55,5 +55,7 @@ setup(name=name,
         main = backrest:main
         [pytest11]
         backrest = backrest.testing
+        [console_scripts]
+        add-user = backrest.commands:add_user
     """,
 )
