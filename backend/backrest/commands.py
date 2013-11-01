@@ -22,8 +22,6 @@ def add_user(**kw):  # pragma: no cover
     del data['config']
     from backrest.models import db_session
     from backrest.principals import Principal
-    from backrest.security import hash_password
-    data['password'] = hash_password(data.get('password'))
     roles = data.pop('global_roles')
     new_user = Principal(**data)
     if roles:
