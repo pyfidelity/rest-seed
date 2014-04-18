@@ -1,3 +1,16 @@
+"""
+    New users can register an account by POSTing to `/signup`:
+
+    >>> browser = getfixture('browser')
+    >>> browser.post_json('http://example.com/-/signup', {
+    ...   "firstname": "Alice",
+    ...   "lastname": "Kingsleigh",
+    ...   "email": "alice@example.com",
+    ...   "password": "hurz"
+    ... }).json
+    {u'status': u'success'}
+"""
+
 from cornice.service import Service
 from colander import MappingSchema, SchemaNode, String
 from colander import All, Email, Invalid
