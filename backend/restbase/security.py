@@ -21,13 +21,15 @@ def get_secret():
     return settings['auth.secret']
 
 
-def setup_signer(salt):
-    """ Instantiate a tokenizer for the given salt along with
-        a matching route factory. """
+def make_tokenizer(salt):
+    """ Instantiate a tokenizer for the given salt. """
     signer = URLSafeSerializer(get_secret(), salt=salt)
+    return signer.dumps
 
-    def tokenizer(payload):
-        return signer.dumps(payload)
+
+def make_factory(salt):
+    """ Instantiate a route factory for the given salt. """
+    signer = URLSafeSerializer(get_secret(), salt=salt)
 
     def factory(request):
         token = request.matchdict.get('token') or request.params.get('token')
@@ -38,4 +40,4 @@ def setup_signer(salt):
         else:
             return payload
 
-    return tokenizer, factory
+    return factory

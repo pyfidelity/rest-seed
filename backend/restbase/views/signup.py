@@ -46,10 +46,8 @@ def signup_user(request, **data):
     return user
 
 
-tokenizer, factory = security.setup_signer(salt='signup')
-
-
 def make_token(user):
+    tokenizer = security.make_tokenizer(salt='signup')
     return tokenizer(dict(id=user.id, email=user.email))
 
 
@@ -61,10 +59,9 @@ def send_confirmation_mail(user, request):
     get_mailer(request).send(message)
 
 
-@service.get(request_param='token', factory=factory)
+@service.get(request_param='token')
 def signup_confirm(request):
-    # FIXME: the payload should be in `request.context`, but for some reason
-    #   the factory doesn't get set for this route
+    factory = security.make_factory(salt='signup')
     payload = factory(request)
     user = principals.find_user(payload['email'])
     if not user.active:
