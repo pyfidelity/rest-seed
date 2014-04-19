@@ -27,10 +27,11 @@ Developing the backend
 Continue here, if you develop the application
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 3
 
     backend
     rest
+    api
 
 
 Developing the frontend
