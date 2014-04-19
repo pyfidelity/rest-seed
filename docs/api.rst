@@ -18,6 +18,12 @@ Signup
 .. automodule:: restbase.views.signup
 
 
+Login
+-----
+
+.. automodule:: restbase.views.login
+
+
 Base API Classes
 ================
 

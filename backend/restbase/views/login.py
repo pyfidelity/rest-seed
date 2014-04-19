@@ -1,3 +1,32 @@
+"""
+    Existing users can log in using a PUT request at ``/login``:
+
+    >>> from restbase.principals import Principal
+    >>> _ = Principal(email=u'alice@foo.com', password=u'alice',
+    ...   firstname=u'Alice', lastname=u'Kingsleigh')
+
+    >>> browser = getfixture('browser')
+    >>> browser.put_json('http://example.com/-/login', {
+    ...   "login": "alice@foo.com",
+    ...   "password": "alice"
+    ... }).json['status']
+    u'success'
+
+    While logged in the frontend may request authentication info via GET:
+
+    >>> info = browser.get_json('http://example.com/-/login').json
+    >>> info['authenticated']
+    True
+    >>> info['firstname'], info['lastname'], info['email']
+    (u'Alice', u'Kingsleigh', u'alice@foo.com')
+
+    Logging out again is handled via a PUT at ``/logout``:
+
+    >>> browser.put_json('http://example.com/-/logout', {}).json
+    {u'status': u'success'}
+
+"""
+
 from cornice.service import Service
 from datetime import datetime
 from pyramid.security import remember, forget
