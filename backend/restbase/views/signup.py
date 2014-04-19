@@ -7,8 +7,8 @@
     ...   "lastname": "Kingsleigh",
     ...   "email": "alice@example.com",
     ...   "password": "hurz"
-    ... }).json
-    {u'status': u'success'}
+    ... }).json['status']
+    u'success'
 """
 
 from cornice.service import Service

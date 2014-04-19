@@ -22,8 +22,8 @@
 
     Logging out again is handled via a PUT at ``/logout``:
 
-    >>> browser.put_json('http://example.com/-/logout', {}).json
-    {u'status': u'success'}
+    >>> browser.put_json('http://example.com/-/logout', {}).json['status']
+    u'success'
 
 """
 
