@@ -30,6 +30,12 @@ Password reset
 .. automodule:: restbase.views.reset_password
 
 
+Password change
+---------------
+
+.. automodule:: restbase.views.change_password
+
+
 Base API Classes
 ================
 

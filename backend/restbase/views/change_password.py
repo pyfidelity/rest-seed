@@ -1,3 +1,24 @@
+"""
+    Existing users can change their password by PUTing to ``/password``:
+
+    >>> from restbase.principals import Principal
+    >>> _ = Principal(email=u'alice@foo.com', password=u'alice',
+    ...   firstname=u'Alice', lastname=u'Kingsleigh')
+
+    >>> browser = getfixture('browser')
+    >>> browser.put_json('http://example.com/-/login', {
+    ...   "login": "alice@foo.com",
+    ...   "password": "alice"
+    ... }).json['status']
+    u'success'
+
+    >>> browser.put_json('http://example.com/-/password', {
+    ...   "current": "alice",
+    ...   "password": "foo!"
+    ... }).json['status']
+    u'success'
+"""
+
 from colander import MappingSchema, SchemaNode, String
 from colander import deferred, required, Function
 from cornice.service import Service
