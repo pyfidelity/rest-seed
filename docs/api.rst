@@ -24,6 +24,12 @@ Login
 .. automodule:: restbase.views.login
 
 
+Password reset
+--------------
+
+.. automodule:: restbase.views.reset_password
+
+
 Base API Classes
 ================
 

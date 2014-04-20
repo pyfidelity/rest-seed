@@ -1,3 +1,17 @@
+"""
+    Existing users can request a password reset by POSTing to ``/reset/``:
+
+    >>> from restbase.principals import Principal
+    >>> _ = Principal(email=u'alice@foo.com', password=u'alice',
+    ...   firstname=u'Alice', lastname=u'Kingsleigh')
+
+    >>> browser = getfixture('browser')
+    >>> browser.post_json('http://example.com/-/reset/', {
+    ...   "email": "alice@foo.com"
+    ... }).json['status']
+    u'success'
+"""
+
 from colander import MappingSchema, SchemaNode, String, Invalid
 from cornice.service import Service
 from pyramid_mailer import get_mailer
