@@ -60,12 +60,12 @@ def signup_user(request, **data):
 
 
 def make_token(user):
-    tokenizer = security.make_tokenizer(salt='signup')
+    tokenizer = security.make_tokenizer(salt=service.name)
     return tokenizer(dict(id=user.id, email=user.email))
 
 
 def send_confirmation_mail(user, request):
-    url = request.route_url('signup', _query=dict(token=make_token(user)))
+    url = request.route_url(service.name, _query=dict(token=make_token(user)))
     message = utils.render_mail(request=request, template='signup_confirmation',
         recipients=[user.email], subject=_(u'Please confirm your account'),
         data=dict(user=user, url=url))
@@ -74,7 +74,7 @@ def send_confirmation_mail(user, request):
 
 @service.get(request_param='token')
 def signup_confirm(request):
-    factory = security.make_factory(salt='signup')
+    factory = security.make_factory(salt=service.name)
     payload = factory(request)
     user = principals.find_user(payload['email'])
     if not user.active:
