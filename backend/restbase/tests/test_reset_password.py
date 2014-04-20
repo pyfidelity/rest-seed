@@ -37,6 +37,18 @@ def reset_url(alice):
     return route_url('password-reset', token=make_token(alice))
 
 
+def test_get_password_reset_url(browser, reset_url):
+    # since the user will use a link (in their email), we need
+    # a GET handler redirecting them to the (angularjs) form...
+    result = browser.get(reset_url)
+    assert result.location == reset_url.replace('/-/reset', '/#/reset')
+
+
+def test_get_password_reset_to_bad_url(browser, reset_url):
+    url = reset_url[:-3] + 'xxx'        # guess the signature!
+    browser.get(url, status=404)
+
+
 def test_put_password_reset(browser, reset_url, alice):
     data = dict(password='foobar')
     result = browser.put_json(reset_url, data)
