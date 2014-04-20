@@ -24,6 +24,12 @@ def test_post_password_reset(browser, alice, reset_request_url, mailer):
     assert link.startswith('http://example.com/-/reset/')
 
 
+def test_post_password_reset_for_unconfirmed_user(browser, reset_request_url, alice):
+    alice.active = False
+    data = dict(email=u'alice@foo.com')
+    browser.post_json(reset_request_url, data, status=400)
+
+
 def test_post_password_reset_validation(browser, reset_request_url):
     data = dict(email='ernie')
     result = browser.post_json(reset_request_url, data, status=400).json
