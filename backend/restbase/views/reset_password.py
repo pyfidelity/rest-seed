@@ -14,7 +14,6 @@
 
 from colander import MappingSchema, SchemaNode, String, Invalid
 from cornice.service import Service
-from pyramid.httpexceptions import HTTPFound
 from pyramid_mailer import get_mailer
 
 from .. import _, principals, security, utils, path
@@ -59,7 +58,7 @@ def send_password_reset_mail(user, request):
 def redirect_helper(request):
     factory = security.make_factory(salt=service.name)
     factory(request)        # validate the token
-    return HTTPFound(location='/#/' + request.path.lstrip('/-'))
+    return request.redirect(target='reset_password.form')
 
 
 @service.put(accept='application/json')

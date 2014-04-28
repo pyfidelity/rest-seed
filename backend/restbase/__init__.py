@@ -8,7 +8,7 @@ from pyramid.renderers import JSON
 
 from .models import db_session, metadata
 from .principals import get_user
-from .utils import create_db_engine
+from .utils import create_db_engine, redirect
 
 
 # prepare for translation factory
@@ -43,6 +43,7 @@ def configure(global_config, **settings):
         secret=settings['auth.secret'], hashalg='sha512'))
     config.set_authorization_policy(ACLAuthorizationPolicy())
     config.set_request_property(get_user, name='user', reify=True)
+    config.add_request_method(redirect)
     config.add_renderer('json', json_renderer)
     config.add_renderer('.html', 'pyramid_chameleon.zpt.renderer_factory')
     config.include('.views.download')

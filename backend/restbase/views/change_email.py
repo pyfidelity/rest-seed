@@ -24,7 +24,7 @@ from colander import MappingSchema, SchemaNode, String
 from colander import deferred, Function
 from colander import All, Email
 from cornice.service import Service
-from pyramid.httpexceptions import HTTPFound, HTTPForbidden
+from pyramid.httpexceptions import HTTPForbidden
 from pyramid_mailer import get_mailer
 
 from .. import _, security, utils, path
@@ -84,4 +84,4 @@ def change_email(request):
     if user is None or not user.id == id:
         raise HTTPForbidden
     user.update(email=email)
-    return HTTPFound(location='/')
+    return request.redirect(target='change_email.success')

@@ -1,5 +1,6 @@
 from html2text import HTML2Text
 from os import environ
+from pyramid.httpexceptions import HTTPFound
 from pyramid.renderers import render
 from pyramid.threadlocal import get_current_registry
 from pyramid_mailer.message import Message
@@ -36,3 +37,12 @@ def render_mail(request, recipients, template, data, subject, **kw):
     body = render(template_path(template), data, request)
     return Message(recipients=recipients, subject=subject,
         html=body, body=html2text(body), **kw)
+
+
+def redirect(request, target, namespace=None):
+    if namespace is None:
+        key = 'redirect.%s' % target
+    else:
+        key = 'redirect.%s.%s' % (namespace, target)
+    url = request.registry.settings[key] % request.matchdict
+    return HTTPFound(location=url)

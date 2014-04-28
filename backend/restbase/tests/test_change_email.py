@@ -60,9 +60,10 @@ def confirmation_url(alice):
 @mark.user('alice')
 def test_change_email_via_validation_link(browser, confirmation_url, alice):
     # since the user will use a link (in their email), we need to GET...
-    browser.get(confirmation_url, status=302)
-    # the email address has changed...
+    result = browser.get(confirmation_url, status=302)
+    # the email address has changed and the user is redirected to the defined url
     assert alice.email == 'alice@bar.com'
+    assert result.location == 'http://example.com/#/email-changed'
 
 
 @mark.user('alice')
