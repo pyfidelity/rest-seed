@@ -1,0 +1,13 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+<body>
+
+  <h1> Hello <tal:user replace="user.firstname"/>, </h1>
+
+  <p> We received a request to change your password. You can confirm this and
+      change your password by clicking the following reset password link. </p>
+
+  <p> <a href="${url}"><strong>Reset password</strong></a> </p>
+
+</body>
+</html>
