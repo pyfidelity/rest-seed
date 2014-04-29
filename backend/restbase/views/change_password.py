@@ -56,7 +56,7 @@ def validate_current_password(node, kw):
 class Schema(MappingSchema):
     current = SchemaNode(String(), title=u'Current password',
         validator=validate_current_password, missing=current_missing)
-    password = SchemaNode(String(), title=u'New password', missing=None)
+    password = SchemaNode(String(), title=u'New password')
 
 
 service = Service(name='password-change', path=path('password'))
