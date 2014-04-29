@@ -25,31 +25,20 @@
 """
 
 from colander import MappingSchema, SchemaNode, String
-from colander import deferred, Function
 from colander import All, Email
 from cornice.service import Service
 from pyramid.httpexceptions import HTTPForbidden
 from pyramid_mailer import get_mailer
 
 from .. import _, security, utils, path
-from . import signup
-
-
-@deferred
-def validate_current_password(node, kw):
-    """ Validator to make sure the current password was given and matches """
-    request = kw['request']
-    if request.user.password is None:
-        return True
-    validate = request.user.validate_password
-    return Function(validate, _(u'Password does not match'))
+from . import signup, change_password
 
 
 class Schema(MappingSchema):
     email = SchemaNode(String(), title=u'Email',
         validator=All(Email(), signup.email_not_registered))
     password = SchemaNode(String(), title=u'Current password',
-        validator=validate_current_password)
+        validator=change_password.validate_current_password)
 
 
 service = Service(name='email-change', path=path('email/{token:.*}'))
