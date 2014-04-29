@@ -58,14 +58,11 @@ def send_confirmation_mail(user, email, request):
 
 
 @service.put(schema=Schema, accept='application/json')
-def user_settings(request):
+def request_email_change(request):
     user = request.user
-    data = dict(request.validated)
-    if 'email' in data:
-        email = data.pop('email')
-        if not email == user.email:
-            send_confirmation_mail(user, email, request)
-    user.update(**data)
+    email = request.validated['email']
+    if not email == user.email:
+        send_confirmation_mail(user, email, request)
     return dict(status='success')
 
 
