@@ -14,7 +14,7 @@ def testfile(db_session):
 
 def test_create_file(tmpdir, db_session):
     testfile = File(data='123456', filename=u'test.png')
-    assert not '/' in testfile.path
+    assert '/' not in testfile.path
     assert testfile.path.endswith('.png')
     assert testfile.filesystem_path == '%s/%s' % (tmpdir, testfile.path)
     assert testfile.filename == 'test.png'
