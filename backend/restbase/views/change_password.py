@@ -1,5 +1,7 @@
 """
-    Existing users can change their password by PUTing to ``/password``:
+  Existing users can change their password by PUTing to ``/password``:
+
+  .. testsetup::
 
     >>> from restbase.principals import Principal
     >>> _ = Principal(email=u'alice@foo.com', password=u'alice',
@@ -11,6 +13,8 @@
     ...   "password": "alice"
     ... }).json['status']
     u'success'
+
+  .. doctest::
 
     >>> browser.put_json('http://example.com/-/password', {
     ...   "current": "alice",

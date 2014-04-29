@@ -1,6 +1,8 @@
 """
-    Existing users can request to change their email address by
-    PUTing to ``/-/email/``:
+  Existing users can request to change their email address by
+  PUTing to ``/-/email/``:
+
+  .. testsetup::
 
     >>> from restbase.principals import Principal
     >>> _ = Principal(email=u'alice@foo.com', password=u'alice',
@@ -12,6 +14,8 @@
     ...   "password": "alice"
     ... }).json['status']
     u'success'
+
+  .. doctest::
 
     >>> browser.put_json('http://example.com/-/email/', {
     ...   "email": "alice@bar.com",

@@ -1,7 +1,12 @@
 """
-    New users can register an account by POSTing to ``/signup``:
+  New users can register an account by POSTing to ``/signup``:
+
+  .. testsetup::
 
     >>> browser = getfixture('browser')
+
+  .. doctest::
+
     >>> browser.post_json('http://example.com/-/signup', {
     ...   "firstname": "Alice",
     ...   "lastname": "Kingsleigh",

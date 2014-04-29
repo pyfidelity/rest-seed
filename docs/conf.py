@@ -5,6 +5,7 @@ from pkg_resources import get_distribution
 # sphinx settings
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.doctest',
     'sphinx.ext.todo',
     'repoze.sphinx.autointerface',
 ]

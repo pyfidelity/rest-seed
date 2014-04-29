@@ -1,18 +1,22 @@
 """
-    Existing users can log in using a PUT request at ``/login``:
+  Existing users can log in using a PUT request at ``/login``:
+
+  .. testsetup::
 
     >>> from restbase.principals import Principal
     >>> _ = Principal(email=u'alice@foo.com', password=u'alice',
     ...   firstname=u'Alice', lastname=u'Kingsleigh')
-
     >>> browser = getfixture('browser')
+
+  .. doctest::
+
     >>> browser.put_json('http://example.com/-/login', {
     ...   "login": "alice@foo.com",
     ...   "password": "alice"
     ... }).json['status']
     u'success'
 
-    While logged in the frontend may request authentication info via GET:
+  While logged in the frontend may request authentication info via GET:
 
     >>> info = browser.get_json('http://example.com/-/login').json
     >>> info['authenticated']
@@ -20,7 +24,7 @@
     >>> info['firstname'], info['lastname'], info['email']
     (u'Alice', u'Kingsleigh', u'alice@foo.com')
 
-    Logging out again is handled via a PUT at ``/logout``:
+  Logging out again is handled via a PUT at ``/logout``:
 
     >>> browser.put_json('http://example.com/-/logout', {}).json['status']
     u'success'

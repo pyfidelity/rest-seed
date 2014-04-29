@@ -1,11 +1,15 @@
 """
-    Existing users can request a password reset by POSTing to ``/reset/``:
+  Existing users can request a password reset by POSTing to ``/reset/``:
+
+  .. testsetup::
 
     >>> from restbase.principals import Principal
     >>> _ = Principal(email=u'alice@foo.com', password=u'alice',
     ...   firstname=u'Alice', lastname=u'Kingsleigh')
-
     >>> browser = getfixture('browser')
+
+  .. doctest::
+
     >>> browser.post_json('http://example.com/-/reset/', {
     ...   "email": "alice@foo.com"
     ... }).json['status']
