@@ -46,7 +46,7 @@ def auth_cookies(login):
 settings = {
     'auth.secret': 's3crit',
     'pyramid.includes': 'pyramid_mailer.testing',
-    'redirect.reset_password.form': '/#/reset/%(token)s',
+    'redirect.reset_password.form': '/#/reset/%s',
     'redirect.change_email.success': '/#/email-changed',
     'testing': True,
     'debug': True,

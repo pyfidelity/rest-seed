@@ -39,10 +39,7 @@ def render_mail(request, recipients, template, data, subject, **kw):
         html=body, body=html2text(body), **kw)
 
 
-def redirect(request, target, namespace=None):
-    if namespace is None:
-        key = 'redirect.%s' % target
-    else:
-        key = 'redirect.%s.%s' % (namespace, target)
-    url = request.registry.settings[key] % request.matchdict
+def redirect(request, target, *args):
+    key = 'redirect.%s' % target
+    url = request.registry.settings[key] % args
     return HTTPFound(location=url)
