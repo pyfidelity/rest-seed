@@ -36,6 +36,12 @@ Password change
 .. automodule:: restbase.views.change_password
 
 
+Email change
+------------
+
+.. automodule:: restbase.views.change_email
+
+
 Base API Classes
 ================
 
