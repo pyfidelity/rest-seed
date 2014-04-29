@@ -29,7 +29,8 @@ def test_logout(browser, alice):
     url = testing.route_url('logout')
     result = browser.put_json(url, {})
     assert result.json['status'] == 'success'
-    assert result.headers['Set-Cookie'].startswith('auth_tkt="";')
+    cookie = result.headers['Set-Cookie']
+    assert cookie.startswith('auth_tkt="";') or cookie.startswith('auth_tkt=;')
 
 
 @mark.user('alice')
