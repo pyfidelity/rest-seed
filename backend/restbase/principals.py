@@ -1,3 +1,4 @@
+from colander import null
 from datetime import datetime
 from pyramid.security import authenticated_userid
 from sqlalchemy import Boolean
@@ -48,7 +49,7 @@ class Principal(models.Base):
         if password is not None:
             self.password = security.hash_password(password)
         for key in 'email', 'firstname', 'lastname':
-            if key in data:
+            if key in data and data[key] is not null:
                 setattr(self, key, data[key])
 
     def __json__(self, request):

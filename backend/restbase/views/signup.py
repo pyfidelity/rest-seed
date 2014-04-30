@@ -8,8 +8,6 @@
   .. doctest::
 
     >>> browser.post_json('http://example.com/-/signup', {
-    ...   "firstname": "Alice",
-    ...   "lastname": "Kingsleigh",
     ...   "email": "alice@example.com",
     ...   "password": "hurz"
     ... }).json['status']
@@ -17,7 +15,7 @@
 """
 
 from cornice.service import Service
-from colander import MappingSchema, SchemaNode, String
+from colander import MappingSchema, SchemaNode, String, null
 from colander import All, Email, Invalid
 from pyramid.exceptions import Forbidden
 from pyramid.httpexceptions import HTTPFound
@@ -42,8 +40,8 @@ def email_not_registered(node, param):
 
 class Schema(MappingSchema):
     """ Signup schema for new users. """
-    firstname = SchemaNode(String())
-    lastname = SchemaNode(String())
+    firstname = SchemaNode(String(), missing=null)
+    lastname = SchemaNode(String(), missing=null)
     email = SchemaNode(String(), title=u'Email',
         validator=All(Email(), email_not_registered))
     password = SchemaNode(String())
