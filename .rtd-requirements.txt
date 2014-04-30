@@ -1,3 +1,4 @@
 # pip requirements file to allow installation from the top-level directory
 # this is currently used to build documentation on https://readthedocs.org/
+repoze.sphinx.autointerface
 -e backend
