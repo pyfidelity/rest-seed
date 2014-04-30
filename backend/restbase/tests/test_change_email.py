@@ -43,6 +43,12 @@ def test_change_email_sends_validation_mail(browser, url, alice, mailer):
     assert link.startswith('http://example.com/-/email/')
 
 
+def test_change_email_anonymously(browser, url, alice, mailer):
+    data = dict(email='alice@bar.com', password='alice')
+    browser.put_json(url, data, status=403)
+    assert mailer.outbox == []
+
+
 @mark.user('alice')
 def test_unchanged_email_does_not_send_validation_mail(browser, url, alice, mailer):
     data = dict(email=alice.email, password='alice')

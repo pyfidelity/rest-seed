@@ -28,6 +28,7 @@ from colander import deferred, required, Function
 from cornice.service import Service
 
 from .. import _, path
+from . import user_factory
 
 
 @deferred
@@ -59,10 +60,11 @@ class Schema(MappingSchema):
     password = SchemaNode(String(), title=u'New password')
 
 
-service = Service(name='password-change', path=path('password'))
+service = Service(name='password-change', path=path('password'),
+    factory=user_factory)
 
 
-@service.put(schema=Schema, accept='application/json')
+@service.put(schema=Schema, accept='application/json', permission='edit')
 def change_password(request):
     password = request.validated['password']
     request.user.update(password=password)

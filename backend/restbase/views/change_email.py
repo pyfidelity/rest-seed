@@ -31,7 +31,7 @@ from pyramid.httpexceptions import HTTPForbidden
 from pyramid_mailer import get_mailer
 
 from .. import _, security, utils, path
-from . import signup, change_password
+from . import signup, change_password, user_factory
 
 
 class Schema(MappingSchema):
@@ -41,7 +41,8 @@ class Schema(MappingSchema):
         validator=change_password.validate_current_password)
 
 
-service = Service(name='email-change', path=path('email/{token:.*}'))
+service = Service(name='email-change', path=path('email/{token:.*}'),
+    factory=user_factory)
 
 
 def make_token(user, email):
@@ -57,7 +58,7 @@ def send_confirmation_mail(user, email, request):
     get_mailer(request).send(message)
 
 
-@service.put(schema=Schema, accept='application/json')
+@service.put(schema=Schema, accept='application/json', permission='edit')
 def request_email_change(request):
     user = request.user
     email = request.validated['email']
@@ -66,7 +67,7 @@ def request_email_change(request):
     return dict(status='success')
 
 
-@service.get()
+@service.get(permission='edit')
 def change_email(request):
     factory = security.make_factory(salt=service.name)
     id, email = factory(request)    # token payload is (id, email)

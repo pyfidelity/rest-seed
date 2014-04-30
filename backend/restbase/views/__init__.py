@@ -29,6 +29,10 @@ def id_factory(model):
     return factory
 
 
+def user_factory(request):
+    return request.user
+
+
 class Resource(object):
 
     def __init__(self, context, request):
