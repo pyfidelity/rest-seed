@@ -38,6 +38,8 @@ def test_change_email_sends_validation_mail(browser, url, alice, mailer):
     message, = mailer.outbox
     assert message.recipients == ['alice@bar.com']
     assert message.subject == 'Confirm your email address'
+    assert 'Confirm email change' in message.html
+    assert 'Confirm email change' in message.body
     a_tag, = PyQuery(message.html)('a')
     link = unquote(a_tag.attrib['href'])
     assert link.startswith('http://example.com/-/email/')

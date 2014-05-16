@@ -54,7 +54,7 @@ def send_confirmation_mail(user, email, request):
     url = request.route_url(service.name, token=make_token(user, email))
     message = utils.render_mail(request=request, template='email_change',
         recipients=[email], subject=_('Confirm your email address'),
-        data=dict(user=user, url=url))
+        data=dict(user=user, url=url, email=email))
     get_mailer(request).send(message)
 
 
