@@ -63,7 +63,7 @@ def redirect_helper(request):
     factory = security.make_factory(salt=service.name)
     factory(request)        # validate the token
     token = request.matchdict['token']
-    return request.redirect('reset_password.form', token)
+    return request.redirect('reset_password.form', params=token)
 
 
 @service.put(accept='application/json')

@@ -37,9 +37,11 @@ def test_signup_sends_confirmation_mail(browser, url, data, mailer):
     assert not principals.find_user(data['email']).active
     link = PyQuery(mail.html)('a')[0]
     result = browser.get(link.attrib['href'])
-    # the user is taken to the frontpage & she is active now...
-    assert result.location == 'http://example.com/'
+    # the user is taken to the configured url & she is active now...
+    assert result.location == 'http://example.com/#/welcome'
     assert principals.find_user(data['email']).active
+    # she should also be logged in right away...
+    assert 'auth_tkt' in result.test_app.cookies
 
 
 @fixture(scope='module')

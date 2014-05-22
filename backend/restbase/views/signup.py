@@ -18,7 +18,6 @@ from cornice.service import Service
 from colander import MappingSchema, SchemaNode, String, null
 from colander import All, Email, Invalid
 from pyramid.exceptions import Forbidden
-from pyramid.httpexceptions import HTTPFound
 from pyramid.security import remember
 from pyramid_mailer import get_mailer
 from pyramid.threadlocal import get_current_request
@@ -83,6 +82,6 @@ def signup_confirm(request):
     if not user.active:
         user.active = True
         headers = remember(request, user.id)
-        return HTTPFound(location='/', headers=headers)
+        return request.redirect(target='signup_confirm.success', headers=headers)
     else:
         raise Forbidden

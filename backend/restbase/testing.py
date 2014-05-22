@@ -48,6 +48,7 @@ settings = {
     'pyramid.includes': 'pyramid_mailer.testing',
     'redirect.reset_password.form': '/#/reset/%s',
     'redirect.change_email.success': '/#/email-changed',
+    'redirect.signup_confirm.success': '/#/welcome',
     'testing': True,
     'debug': True,
     'demo': True,
