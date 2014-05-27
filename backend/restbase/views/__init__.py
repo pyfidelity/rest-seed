@@ -97,6 +97,7 @@ class Content(Resource):
     def delete(self):
         db_session.delete(self.context)
         db_session.flush()
+        return {}
 
 
 def rest_resource(model):
