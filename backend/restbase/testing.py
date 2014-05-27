@@ -152,3 +152,9 @@ def browser(db_session, app, request):
 def mailer(config):
     """ Return mock mailer from `pyramid_mailer`. """
     return get_mailer(DummyRequest())
+
+
+def includeme(config):
+    view = lambda request: dict(foo='bar')
+    config.add_route('dummy', '/dummy')
+    config.add_view(view=view, route_name='dummy', renderer='json', permission='view')

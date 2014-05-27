@@ -6,7 +6,7 @@ from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
 from pyramid.renderers import JSON
 
-from .models import db_session, metadata
+from .models import db_session, metadata, Root
 from .principals import get_user
 from .utils import create_db_engine, redirect
 
@@ -43,12 +43,17 @@ def configure(global_config, **settings):
         secret=settings['auth.secret'], hashalg='sha512'))
     config.set_authorization_policy(ACLAuthorizationPolicy())
     config.set_request_property(get_user, name='user', reify=True)
+    config.set_root_factory(lambda request: Root())
     config.add_request_method(redirect)
     config.add_renderer('json', json_renderer)
     config.add_renderer('.html', 'pyramid_chameleon.zpt.renderer_factory')
     config.include('.views.download')
     config.include('cornice')
-    config.scan(ignore=['.testing', '.tests'])
+    ignore = []
+    if settings.get('testing'):
+        config.include('.testing')
+        ignore = ['.testing', '.tests']
+    config.scan(ignore=ignore)
     config.commit()
     return config
 
