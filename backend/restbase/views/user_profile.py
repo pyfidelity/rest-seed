@@ -34,6 +34,7 @@ from colander import MappingSchema, SchemaNode, String, null
 from pyramid.exceptions import Forbidden
 
 from .. import path
+from .change_password import validate_current_password
 
 
 class Schema(MappingSchema):
@@ -58,3 +59,15 @@ def put_profile(request):
         raise Forbidden
     request.user.update(**request.validated)
     return dict(status='success')
+
+
+class DeleteAccountSchema(MappingSchema):
+    password = SchemaNode(String(), validator=validate_current_password)
+
+
+@service.post(schema=DeleteAccountSchema, accept='application/json')
+def delete_account(request):
+    if request.user is None:
+        raise Forbidden
+    request.user.query.delete()
+    return dict(message='goodbye')

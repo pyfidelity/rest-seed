@@ -48,8 +48,8 @@ def current_missing(node, kw):
 def validate_current_password(node, kw):
     """ Validator to make sure the current password was given and matches """
     request = kw['request']
-    if request.user.password is None:
-        return True
+    if request.user is None or request.user.password is None:
+        return
     validate = request.user.validate_password
     return Function(validate, _(u'Password does not match'))
 
