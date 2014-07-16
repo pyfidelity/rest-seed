@@ -42,6 +42,12 @@ Email change
 .. automodule:: restbase.views.change_email
 
 
+User profile
+------------
+
+.. automodule:: restbase.views.user_profile
+
+
 Base API Classes
 ================
 
