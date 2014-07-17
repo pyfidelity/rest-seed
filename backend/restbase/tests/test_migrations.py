@@ -76,7 +76,7 @@ def test_db_metadata_differences(package):
     createdb()
     config = Config()
     config.set_main_option('script_location',
-        resource_filename(project_name, '../alembic'))
+        resource_filename('restbase', '../alembic'))
     script = ScriptDirectory.from_config(config)
     connection = engine.connect()
     environment = EnvironmentContext(config, script,

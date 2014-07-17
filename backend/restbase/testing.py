@@ -115,7 +115,7 @@ class TestApp(TestAppBase):
 
 @fixture(scope='session')
 def package():
-    return __import__(get_distribution().project_name)
+    return __import__('restbase')
 
 
 @fixture(scope='session')
