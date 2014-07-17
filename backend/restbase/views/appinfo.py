@@ -1,7 +1,7 @@
 from cornice.service import Service
 from pyramid.settings import asbool
 
-from restbase import path
+from .. import path
 
 
 app_info = Service(name='appinfo', path=path(''),

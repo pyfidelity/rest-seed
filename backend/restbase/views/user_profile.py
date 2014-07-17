@@ -3,7 +3,7 @@
 
   .. testsetup::
 
-    >>> from restbase.principals import Principal
+    >>> Principal = getfixture('principals').Principal
     >>> _ = Principal(email=u'alice@foo.com', password=u'alice',
     ...   firstname=u'Alice', lastname=u'Kingsleigh')
 

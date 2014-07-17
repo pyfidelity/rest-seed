@@ -114,9 +114,24 @@ class TestApp(TestAppBase):
 
 
 @fixture(scope='session')
+def testing():
+    """ Returns the `testing` module. """
+    from sys import modules
+    return modules[__name__]    # `testing.py` has already been imported
+
+
+@fixture(scope='session')
 def models():
+    """ Returns the `models` module. """
     from . import models
     return models
+
+
+@fixture(scope='session')
+def principals():
+    """ Returns the `principals` module. """
+    from . import principals
+    return principals
 
 
 @fixture
