@@ -52,8 +52,8 @@ setup(name=name,
     },
     entry_points="""
         [paste.app_factory]
-        main = restbase:main
+        main = backrest:main
         [pytest11]
-        restbase = restbase.testing
+        backrest = backrest.testing
     """,
 )

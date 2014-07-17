@@ -23,7 +23,7 @@ To run an individual test, use the `-k` parameter (see `the pytest documentation
 
 To create a coverage report, run::
 
-    $ bin/py.test --cov=restbase
+    $ bin/py.test --cov=backrest
 
 This generates a report on the console, as well as a pretty report in `htmlcov/index.html` where you can browse the code and see which lines are not covered::
 
