@@ -1,12 +1,11 @@
 from pytest import fixture
 from pyquery import PyQuery
 from urllib import unquote
-from ..testing import route_url
 
 
 @fixture
-def reset_request_url(alice):
-    return route_url('password-reset', token='')
+def reset_request_url(testing, alice):
+    return testing.route_url('password-reset', token='')
 
 
 def test_post_password_reset(browser, alice, reset_request_url, mailer):
@@ -38,9 +37,9 @@ def test_post_password_reset_validation(browser, reset_request_url):
 
 
 @fixture
-def reset_url(alice):
-    from ..views.reset_password import make_token
-    return route_url('password-reset', token=make_token(alice))
+def reset_url(views, testing, alice):
+    return testing.route_url('password-reset',
+        token=views.reset_password.make_token(alice))
 
 
 def test_get_password_reset_url(browser, reset_url):

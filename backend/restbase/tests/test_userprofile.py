@@ -1,9 +1,8 @@
 from pytest import fixture, mark
-from .. import testing
 
 
 @fixture(scope='module')
-def url():
+def url(testing):
     return testing.route_url('user-profile')
 
 

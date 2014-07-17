@@ -134,6 +134,13 @@ def principals():
     return principals
 
 
+@fixture(scope='session')
+def views():
+    """ Returns the `views` module. """
+    from . import views
+    return views
+
+
 @fixture
 def app(config):
     """ Returns WSGI application wrapped in WebTest's testing interface. """
