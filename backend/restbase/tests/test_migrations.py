@@ -58,12 +58,11 @@ def dumpdb():
     return ['%s\n' % x for x in out]
 
 
-def test_db_metadata_differences(package):
+def test_db_metadata_differences(models):
     # first we drop anything there might be
     drobdb()
     # then we create a clean DB from the metadata
     createdb()
-    from restbase import models
     metadata = models.metadata
     engine = engine_from_config(settings)
     metadata.bind = engine

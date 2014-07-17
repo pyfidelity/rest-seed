@@ -114,22 +114,16 @@ class TestApp(TestAppBase):
 
 
 @fixture(scope='session')
-def package():
-    return __import__('restbase')
-
-
-@fixture(scope='session')
-def models(package):
-    try:
-        return __import__(package.__name__ + '.models')
-    except ImportError:
-        pass
+def models():
+    from . import models
+    return models
 
 
 @fixture
-def app(package, config):
+def app(config):
     """ Returns WSGI application wrapped in WebTest's testing interface. """
-    return package.configure({}, **config.registry.settings).make_wsgi_app()
+    from . import configure
+    return configure({}, **config.registry.settings).make_wsgi_app()
 
 
 @fixture
