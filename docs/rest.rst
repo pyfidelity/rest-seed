@@ -12,7 +12,7 @@ As an example::
 
     from colander import MappingSchema, SchemaNode, SequenceSchema
     from colander import Integer
-    from restbase.schemas import ContentSchema, FileSchema, MissingOrRequiredNode
+    from .schemas import ContentSchema, FileSchema, MissingOrRequiredNode
 
 
     class Foo(ContentSchema):
@@ -31,7 +31,7 @@ Declaring resources
 
 Let's look at the Foo model as an example::
 
-    from restbase.models import Content
+    from .models import Content
 
     class Foo(Content):
 
@@ -68,7 +68,7 @@ Once the model and schema have been defined, the resource can be exposed to the 
     from cornice.resource import view
     from sqlalchemy.sql.expression import desc
 
-    from restbase.views import rest_resource, Content, Resource
+    from .views import rest_resource, Content, Resource
     from . import _, models, schemas
 
 
