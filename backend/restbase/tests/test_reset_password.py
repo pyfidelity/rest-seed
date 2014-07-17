@@ -56,15 +56,15 @@ def test_get_password_reset_to_bad_url(browser, reset_url):
 
 
 def test_put_password_reset(browser, reset_url, alice):
-    data = dict(password='foobar')
+    data = dict(password='secret')
     result = browser.put_json(reset_url, data)
     assert result.json['status'] == 'success'
-    assert alice.validate_password('foobar')
+    assert alice.validate_password('secret')
 
 
 def test_put_password_reset_to_bad_url(browser, reset_url, alice):
     url = reset_url[:-3] + 'xxx'        # guess the signature!
-    data = dict(password='foobar')
+    data = dict(password='secret')
     browser.put_json(url, data, status=404)
     # the password has not changed...
     assert alice.validate_password('alice')
