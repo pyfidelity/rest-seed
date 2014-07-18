@@ -1,9 +1,8 @@
 from pytest import fixture, mark
-from .. import testing
 
 
 @fixture(scope='module')
-def url():
+def url(testing):
     return testing.route_url('login')
 
 
@@ -25,7 +24,7 @@ def test_login_failure(browser, url, alice):
 
 
 @mark.user('alice')
-def test_logout(browser, alice):
+def test_logout(testing, browser, alice):
     url = testing.route_url('logout')
     result = browser.put_json(url, {})
     assert result.json['status'] == 'success'

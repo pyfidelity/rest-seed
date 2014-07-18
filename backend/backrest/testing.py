@@ -114,22 +114,38 @@ class TestApp(TestAppBase):
 
 
 @fixture(scope='session')
-def package():
-    return __import__(get_distribution().project_name)
+def testing():
+    """ Returns the `testing` module. """
+    from sys import modules
+    return modules[__name__]    # `testing.py` has already been imported
 
 
 @fixture(scope='session')
-def models(package):
-    try:
-        return __import__(package.__name__ + '.models')
-    except ImportError:
-        pass
+def models():
+    """ Returns the `models` module. """
+    from . import models
+    return models
+
+
+@fixture(scope='session')
+def principals():
+    """ Returns the `principals` module. """
+    from . import principals
+    return principals
+
+
+@fixture(scope='session')
+def views():
+    """ Returns the `views` module. """
+    from . import views
+    return views
 
 
 @fixture
-def app(package, config):
+def app(config):
     """ Returns WSGI application wrapped in WebTest's testing interface. """
-    return package.configure({}, **config.registry.settings).make_wsgi_app()
+    from . import configure
+    return configure({}, **config.registry.settings).make_wsgi_app()
 
 
 @fixture

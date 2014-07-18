@@ -1,11 +1,10 @@
 from pytest import fixture, mark
 from pyquery import PyQuery
 from urllib import unquote
-from .. import testing
 
 
 @fixture(scope='module')
-def url():
+def url(testing):
     return testing.route_url('email-change', token='')
 
 
@@ -59,9 +58,8 @@ def test_unchanged_email_does_not_send_validation_mail(browser, url, alice, mail
 
 
 @fixture
-def confirmation_url(alice):
-    from ..views.change_email import make_token
-    token = make_token(alice, 'alice@bar.com')
+def confirmation_url(views, testing, alice):
+    token = views.change_email.make_token(alice, 'alice@bar.com')
     return testing.route_url('email-change', token=token)
 
 

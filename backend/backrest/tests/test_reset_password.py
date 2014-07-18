@@ -1,12 +1,11 @@
 from pytest import fixture
 from pyquery import PyQuery
 from urllib import unquote
-from ..testing import route_url
 
 
 @fixture
-def reset_request_url(alice):
-    return route_url('password-reset', token='')
+def reset_request_url(testing, alice):
+    return testing.route_url('password-reset', token='')
 
 
 def test_post_password_reset(browser, alice, reset_request_url, mailer):
@@ -38,9 +37,9 @@ def test_post_password_reset_validation(browser, reset_request_url):
 
 
 @fixture
-def reset_url(alice):
-    from ..views.reset_password import make_token
-    return route_url('password-reset', token=make_token(alice))
+def reset_url(views, testing, alice):
+    return testing.route_url('password-reset',
+        token=views.reset_password.make_token(alice))
 
 
 def test_get_password_reset_url(browser, reset_url):
@@ -56,15 +55,15 @@ def test_get_password_reset_to_bad_url(browser, reset_url):
 
 
 def test_put_password_reset(browser, reset_url, alice):
-    data = dict(password='foobar')
+    data = dict(password='secret')
     result = browser.put_json(reset_url, data)
     assert result.json['status'] == 'success'
-    assert alice.validate_password('foobar')
+    assert alice.validate_password('secret')
 
 
 def test_put_password_reset_to_bad_url(browser, reset_url, alice):
     url = reset_url[:-3] + 'xxx'        # guess the signature!
-    data = dict(password='foobar')
+    data = dict(password='secret')
     browser.put_json(url, data, status=404)
     # the password has not changed...
     assert alice.validate_password('alice')

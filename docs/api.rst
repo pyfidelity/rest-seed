@@ -1,7 +1,7 @@
 API Documentation
 *****************
 
-.. automodule:: restbase
+.. automodule:: backrest
 
 
 Public API
@@ -15,37 +15,37 @@ The public API is exposed as a RESTful JSON interface using `cornice <http://cor
 Signup
 ------
 
-.. automodule:: restbase.views.signup
+.. automodule:: backrest.views.signup
 
 
 Login
 -----
 
-.. automodule:: restbase.views.login
+.. automodule:: backrest.views.login
 
 
 Password reset
 --------------
 
-.. automodule:: restbase.views.reset_password
+.. automodule:: backrest.views.reset_password
 
 
 Password change
 ---------------
 
-.. automodule:: restbase.views.change_password
+.. automodule:: backrest.views.change_password
 
 
 Email change
 ------------
 
-.. automodule:: restbase.views.change_email
+.. automodule:: backrest.views.change_email
 
 
 User profile
 ------------
 
-.. automodule:: restbase.views.user_profile
+.. automodule:: backrest.views.user_profile
 
 
 Base API Classes
@@ -53,7 +53,7 @@ Base API Classes
 
 The above JSON services are based on a few helper classes.
 
-.. automodule:: restbase.views
+.. automodule:: backrest.views
    :members:
 
 
@@ -62,5 +62,5 @@ Base Models
 
 The below models try to provide a basis for content-like and file-like types.  The latter deal with binary data using `repoze.filesafe` in order to be transaction-safe.
 
-.. automodule:: restbase.models
+.. automodule:: backrest.models
    :members:

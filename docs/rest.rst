@@ -12,10 +12,10 @@ As an example::
 
     from colander import MappingSchema, SchemaNode, SequenceSchema
     from colander import Integer
-    from restbase.schemas import ContentSchema, FileSchema, MissingOrRequiredNode
+    from .schemas import ContentSchema, FileSchema, MissingOrRequiredNode
 
 
-    class Foobar(ContentSchema):
+    class Foo(ContentSchema):
 
         size = SchemaNode(Integer())
 
@@ -29,21 +29,21 @@ Declaring resources
 
 ``rest-base`` contains the main components with which we define resources: ``rest_resource`` (a decorator), ``Content`` a base class, and ``Resource`` a generic resource implementation on top of cornice.
 
-Let's look at the Foobar model as an example::
+Let's look at the Foo model as an example::
 
-    from restbase.models import Content
+    from .models import Content
 
-    class Foobar(Content):
+    class Foo(Content):
 
 Next, we define its schema::
 
-        schema = schemas.Foobar
+        schema = schemas.Foo
 
 Each content is identified by a global namespace ``id`` (which is already part of the Content schema, so we didn't have to include it above)::
 
         id = Column(Integer, ForeignKey(Content.id), primary_key=True)
 
-Then we have the attributes of a foobar::
+Then we have the attributes of a foo::
 
         size = Column(Integer(), nullable=False, default=0)
 
@@ -55,31 +55,31 @@ Each content must provide a ``update`` method that receives key-value data and p
 Finally, each content must be able to render itself as valid JSON. To this end it must provide a ``__json__`` method that gets a request and must return a dictionary::
 
         def __json__(self, request):
-            return dict(super(Foobar, self).__json__(request),
+            return dict(super(Foo, self).__json__(request),
                 size=self.size)
 
 
 Exposing resources
 ==================
 
-Once the model and schema have been defined, the resource can be exposed to the nasty, scare interweb. This is done with the ``@rest_resource`` view decorator. Back to our foobar example::
+Once the model and schema have been defined, the resource can be exposed to the nasty, scare interweb. This is done with the ``@rest_resource`` view decorator. Back to our foo example::
 
 
     from cornice.resource import view
     from sqlalchemy.sql.expression import desc
 
-    from restbase.views import rest_resource, Content, Resource
+    from .views import rest_resource, Content, Resource
     from . import _, models, schemas
 
 
-    @rest_resource(model=models.Foobar)
+    @rest_resource(model=models.Foo)
 
-The decorator ties it with model and also defines default paths (routes) via convention. It does so by adding the API root (by default ``/-/`` with the lower caseed name of the class and the same in plural form for the **collection** variant of the model, i.e. in this case ``/-/foobar`` and ``/-/foobars``. This behavior is also partiall defined in the ``Content`` resource which we subclass::
+The decorator ties it with model and also defines default paths (routes) via convention. It does so by adding the API root (by default ``/-/`` with the lower caseed name of the class and the same in plural form for the **collection** variant of the model, i.e. in this case ``/-/foo`` and ``/-/foos``. This behavior is also partiall defined in the ``Content`` resource which we subclass::
 
-    class Foobar(Content):
-        model = models.Foobar
+    class Foo(Content):
+        model = models.Foo
 
-In following method we expose ``/-/foobars`` for ``GET`` and return a list of all foobars in reverse chronological order::
+In following method we expose ``/-/foos`` for ``GET`` and return a list of all foos in reverse chronological order::
 
         @view(renderer='json', permission='view')
         def collection_get(self):

@@ -1,9 +1,8 @@
 from pytest import fixture, mark
-from restbase import testing
 
 
 @fixture
-def url(config):
+def url(testing, config):
     return testing.route_url('dummy')
 
 

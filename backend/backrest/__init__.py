@@ -5,6 +5,7 @@ from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
 from pyramid.renderers import JSON
+from transaction import commit
 
 from .models import db_session, metadata, Root
 from .principals import get_user
@@ -62,3 +63,10 @@ def db_setup(**settings):
     db_session.configure(bind=engine)
     metadata.bind = engine
     metadata.create_all(engine)
+
+
+def main(global_config, **settings):        # pragma: no cover, tests have own app setup
+    config = configure(global_config, **settings)
+    db_setup(**settings)
+    commit()
+    return config.make_wsgi_app()

@@ -4,32 +4,33 @@ from alembic.migration import MigrationContext
 from alembic.script import ScriptDirectory
 from difflib import unified_diff
 from pkg_resources import resource_filename
+from pytest import fixture
 from re import split
 from sqlalchemy import engine_from_config
 from subprocess import call, Popen, PIPE
 
 
-from restbase.testing import get_distribution
-project_name = get_distribution().project_name
+@fixture
+def settings(testing):
+    # we use our own db for this test, since it will be created and dropped
+    project_name = testing.get_distribution().project_name
+    db_name = '%s_migration_test' % project_name
+    return {
+        'db_name': db_name,
+        'sqlalchemy.url': 'postgresql:///' + db_name,
+        'testing': True,
+    }
 
 
-# we use our own db for this test, since it will be created and dropped
-db_name = '%s_migration_test' % project_name
-settings = {
-    'sqlalchemy.url': 'postgresql:///' + db_name,
-    'testing': True,
-}
-
-
-def createdb():
+def createdb(db_name):
     call('createdb %s -E utf8 -T template0' % db_name, shell=True)
 
 
-def drobdb():
+def dropdb(db_name):
     call('dropdb %s' % db_name, shell=True)
 
 
-def dumpdb():
+def dumpdb(db_name):
     p = Popen('pg_dump %s' % db_name, shell=True, stdout=PIPE, stderr=PIPE)
     out, err = p.communicate()
     assert p.returncode == 0, err
@@ -58,25 +59,25 @@ def dumpdb():
     return ['%s\n' % x for x in out]
 
 
-def test_db_metadata_differences(package):
+def test_db_metadata_differences(models, settings):
+    db_name = settings['db_name']
     # first we drop anything there might be
-    drobdb()
+    dropdb(db_name)
     # then we create a clean DB from the metadata
-    createdb()
-    from restbase import models
+    createdb(db_name)
     metadata = models.metadata
     engine = engine_from_config(settings)
     metadata.bind = engine
     metadata.create_all(engine)
     # and store the results
-    create_all_result = dumpdb()
+    create_all_result = dumpdb(db_name)
     engine.dispose()
     # now we do it again, but this time using migrations
-    drobdb()
-    createdb()
+    dropdb(db_name)
+    createdb(db_name)
     config = Config()
     config.set_main_option('script_location',
-        resource_filename(project_name, '../alembic'))
+        resource_filename(models.__name__, '../alembic'))
     script = ScriptDirectory.from_config(config)
     connection = engine.connect()
     environment = EnvironmentContext(config, script,
@@ -93,7 +94,7 @@ def test_db_metadata_differences(package):
     # we drop alembic_version to avoid it showing up in the diff
     engine.execute('DROP TABLE alembic_version;')
     # we store these results
-    alembic_result = dumpdb()
+    alembic_result = dumpdb(db_name)
     del context
     del environment
     connection.close()

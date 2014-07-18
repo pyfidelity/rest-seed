@@ -30,7 +30,7 @@ def html2text(html):
 
 
 def template_path(name):
-    return 'restbase:templates/%s.html' % name
+    return '%s:templates/%s.html' % (__package__, name)
 
 
 def render_mail(request, recipients, template, data, subject, **kw):

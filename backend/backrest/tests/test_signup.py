@@ -1,6 +1,5 @@
 from pytest import fixture
 from pyquery import PyQuery
-from .. import testing
 
 
 @fixture
@@ -10,12 +9,11 @@ def data():
 
 
 @fixture(scope='module')
-def url():
+def url(testing):
     return testing.route_url('signup')
 
 
-def test_signup_success(browser, url, data):
-    from .. import principals
+def test_signup_success(browser, url, data, principals):
     count = principals.Principal.query.count()
     result = browser.post_json(url, data)
     assert result.json['status'] == 'success'
@@ -26,14 +24,13 @@ def test_signup_success(browser, url, data):
     assert user.lastname == 'Kingsleigh'
 
 
-def test_signup_sends_confirmation_mail(browser, url, data, mailer):
+def test_signup_sends_confirmation_mail(browser, url, data, mailer, principals):
     browser.post_json(url, data)
     mail, = mailer.outbox
     assert mail.recipients == [data['email']]
     assert 'Please confirm your account' in mail.html
     assert 'Please confirm your account' in mail.body
     # the user is not active until the link has been clicked...
-    from .. import principals
     assert not principals.find_user(data['email']).active
     link = PyQuery(mail.html)('a')[0]
     result = browser.get(link.attrib['href'])
@@ -45,9 +42,8 @@ def test_signup_sends_confirmation_mail(browser, url, data, mailer):
 
 
 @fixture(scope='module')
-def confirm_url(alice):
-    from ..views.signup import make_token
-    token = make_token(alice)
+def confirm_url(views, testing, alice):
+    token = views.signup.make_token(alice)
     return testing.route_url('signup', _query=dict(token=token))
 
 
