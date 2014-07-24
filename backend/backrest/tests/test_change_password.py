@@ -1,4 +1,5 @@
 from pytest import fixture, mark
+from transaction import commit
 
 
 @fixture(scope='module')
@@ -11,6 +12,18 @@ def test_change_password(browser, url, alice):
     data = dict(password='foo!', current='alice')
     browser.put_json(url, data)
     assert alice.validate_password('foo!')
+
+
+@mark.user('alice')
+def test_change_password_twice(browser, url, alice):
+    data = dict(password='foo!', current='alice')
+    browser.put_json(url, data)
+    assert alice.validate_password('foo!')
+    commit()
+    data = dict(password='alice', current='foo!')
+    browser.put_json(url, data)
+    alice = alice.query.one()       # refetch alice after `commit`
+    assert alice.validate_password('alice')
 
 
 @mark.user('alice')

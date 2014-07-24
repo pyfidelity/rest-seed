@@ -3,8 +3,13 @@ from os import environ
 from pyramid.httpexceptions import HTTPFound
 from pyramid.renderers import render
 from pyramid.threadlocal import get_current_registry
+from pyramid.threadlocal import get_current_request
 from pyramid_mailer.message import Message
 from sqlalchemy import engine_from_config
+
+
+def get_request():
+    return get_current_request()
 
 
 def get_settings():

@@ -24,10 +24,10 @@
 """
 
 from colander import MappingSchema, SchemaNode, String
-from colander import deferred, required, Function
+from colander import deferred, required, Invalid
 from cornice.service import Service
 
-from .. import _, path
+from .. import _, path, utils
 from . import user_factory
 
 
@@ -44,14 +44,12 @@ def current_missing(node, kw):
         return None
 
 
-@deferred
-def validate_current_password(node, kw):
+def validate_current_password(node, param):
     """ Validator to make sure the current password was given and matches """
-    request = kw['request']
-    if request.user is None or request.user.password is None:
-        return
-    validate = request.user.validate_password
-    return Function(validate, _(u'Password does not match'))
+    request = utils.get_request()
+    if (request.user is not None and request.user.password is not None
+            and not request.user.validate_password(param)):
+        raise Invalid(node, _(u'Password does not match'))
 
 
 class Schema(MappingSchema):
