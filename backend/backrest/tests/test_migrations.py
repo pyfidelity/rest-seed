@@ -31,7 +31,7 @@ def dropdb(db_name):
 
 
 def dumpdb(db_name):
-    p = Popen('pg_dump %s' % db_name, shell=True, stdout=PIPE, stderr=PIPE)
+    p = Popen('pg_dump --schema-only %s' % db_name, shell=True, stdout=PIPE, stderr=PIPE)
     out, err = p.communicate()
     assert p.returncode == 0, err
     # we parse the output and change it a little bit for better diffing
