@@ -86,7 +86,7 @@ class Content(Resource):
         with db_session.no_autoflush:
             self.context.update(**self.request.validated)
         db_session.flush()
-        db_session.expire_all()      # make sure we don't get stale data...
+        db_session.refresh(self.context)    # make sure we don't get stale data...
         return self.context
 
     @view(renderer='json', permission='view')
