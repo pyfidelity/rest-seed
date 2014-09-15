@@ -1,5 +1,5 @@
 from base64 import decodestring
-from os.path import join, splitext
+from os.path import join, splitext, abspath
 from re import match
 from repoze.filesafe import create_file, open_file
 from sqlalchemy import Column
@@ -53,7 +53,7 @@ class File(Base):
     def filesystem_path(self):
         """ Return the (absolute) filesystem path for the file data. """
         settings = utils.get_settings()
-        return join(settings['filesafe'], self.path)
+        return abspath(join(settings['filesafe'], self.path))
 
     def __json__(self, request):
         return dict(id=self.id, filename=self.filename,
