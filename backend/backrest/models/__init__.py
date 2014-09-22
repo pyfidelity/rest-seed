@@ -21,7 +21,7 @@ from sqlalchemy.util import classproperty
 from uuid import uuid1
 from zope.sqlalchemy import ZopeTransactionExtension
 
-from . import utils
+from .. import utils
 
 
 class Root(object):

@@ -77,7 +77,7 @@ def test_db_metadata_differences(models, settings):
     createdb(db_name)
     config = Config()
     config.set_main_option('script_location',
-        resource_filename(models.__name__, '../alembic'))
+        resource_filename(models.__name__, '../../alembic'))
     script = ScriptDirectory.from_config(config)
     connection = engine.connect()
     environment = EnvironmentContext(config, script,
