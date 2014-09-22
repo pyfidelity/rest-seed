@@ -68,7 +68,8 @@ def test_db_metadata_differences(models, settings):
     metadata = models.metadata
     engine = engine_from_config(settings)
     metadata.bind = engine
-    metadata.create_all(engine)
+    metadata.create_all(engine, tables=[table for name, table
+        in metadata.tables.items() if not name.startswith('test_')])
     # and store the results
     create_all_result = dumpdb(db_name)
     engine.dispose()
