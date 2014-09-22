@@ -1,24 +1,19 @@
 from pytest import fixture
-from backrest.models import Content, get_content
-from backrest.models.categories import Category, Categories, CategoryGroup
+from backrest.models import Content, get_content, CategoriesProvider
+from backrest.models.categories import Category, CategoryGroup
 from sqlalchemy import Column
 from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
-from sqlalchemy.ext.associationproxy import association_proxy
 
 
-class Document(Content):
+class Document(Content, CategoriesProvider):
 
     __tablename__ = 'test_documents'
 
     id = Column(Integer(), ForeignKey(Content.id), primary_key=True)
 
-    categories = association_proxy('associated_categories', attr='category',
-        creator=lambda category: Categories(category=category))
-
-    def update(self, categories=None, **data):
-        if categories is not None:
-            self.categories = categories
+    def update(self, **data):
+        self.update_categories(**data)
         super(Document, self).update(**data)
 
 

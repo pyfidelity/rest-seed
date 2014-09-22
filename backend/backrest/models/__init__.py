@@ -2,7 +2,7 @@ from .root import Root
 from .base import Base, metadata, db_session
 from .file import File
 from .content import Content, get_content
-from .categories import Categories
+from .categories import CategoriesProvider
 
 
 __all__ = [
@@ -10,5 +10,5 @@ __all__ = [
     Base, metadata, db_session,
     File,
     Content, get_content,
-    Categories,
+    CategoriesProvider,
 ]

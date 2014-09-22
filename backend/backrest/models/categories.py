@@ -3,6 +3,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
 from sqlalchemy import Unicode
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship, backref
 
 from .base import Base, db_session
@@ -66,3 +67,15 @@ class Categories(Base):
 
     def __repr__(self):     # pragma: no cover
         return '<%s#%s>' % (self.content_id, self.category_.title)
+
+
+class CategoriesProvider(object):
+
+    @declared_attr
+    def categories(self):
+        return association_proxy('associated_categories', attr='category',
+            creator=lambda category: Categories(category=category))
+
+    def update_categories(self, categories=None, **data):
+        if categories is not None:
+            self.categories = categories
