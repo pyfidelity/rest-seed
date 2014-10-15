@@ -39,6 +39,7 @@ setup(name=name,
             'Sphinx',
             'repoze.sphinx.autointerface',
             'flake8',
+            'mock',
             'pytest >= 2.4.2',
             'py >= 1.4.17',
             'pytest-flakes',
@@ -55,5 +56,7 @@ setup(name=name,
         main = backrest:main
         [pytest11]
         backrest = backrest.testing
+        [console_scripts]
+        add-user = backrest.commands:add_user
     """,
 )

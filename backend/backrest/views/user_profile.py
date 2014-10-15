@@ -33,7 +33,7 @@ from cornice.service import Service
 from colander import MappingSchema, SchemaNode, String, null
 from pyramid.exceptions import Forbidden
 
-from .. import path
+from .. import path, principals
 from .change_password import validate_current_password
 
 
@@ -48,9 +48,13 @@ service = Service(name='user-profile', path=path('userprofile'))
 
 @service.get(accept='application/json')
 def get_profile(request):
-    if request.user is None:
+    user = request.user
+    if user is None:
         raise Forbidden
-    return request.user.__json__(request)
+    elif 'email' in request.GET and 'admin' in user.global_roles:
+        email = request.GET['email']
+        user = principals.Principal.query.filter_by(email=email).one()
+    return user.__json__(request)
 
 
 @service.put(schema=Schema, accept='application/json')
