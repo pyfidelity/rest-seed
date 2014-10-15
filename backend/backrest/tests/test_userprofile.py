@@ -18,6 +18,15 @@ def test_get_user_profile_anonymously(browser, url, alice):
     browser.get_json(url, status=403)
 
 
+@mark.user('admin')
+def test_get_user_profile_as_admin(browser, testing, alice):
+    url = testing.route_url('user-profile', _query=dict(email=alice.email))
+    result = browser.get_json(url).json
+    assert result['email'] == alice.email
+    assert result['firstname'] == alice.firstname
+    assert result['lastname'] == alice.lastname
+
+
 @mark.user('alice')
 def test_put_user_profile(browser, url, alice):
     data = dict(firstname='Alien', lastname='Species')
