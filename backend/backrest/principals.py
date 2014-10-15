@@ -38,7 +38,7 @@ class Principal(models.Base):
     lastname = Column(Unicode())
     creation_date = Column(DateTime(), nullable=False, default=datetime.utcnow)
     last_login_date = Column(DateTime())
-    global_roles_proxy = association_proxy('global_roles', 'role')
+    global_roles = association_proxy('global_roles_', 'role')
 
     def __init__(self, email, active=True, **data):
         self.email = email
@@ -51,7 +51,7 @@ class Principal(models.Base):
 
     def update(self, password=None, global_roles=None, **data):
         if global_roles is not None:
-            self.global_roles_proxy = global_roles
+            self.global_roles = global_roles
         if password is not None:
             self.password = security.hash_password(password)
         for key in 'email', 'firstname', 'lastname':
@@ -76,7 +76,7 @@ class GlobalRoles(models.Base):
     """ Global roles, which can be assigned to principals. """
 
     principal_id = Column(Integer, ForeignKey(Principal.id), primary_key=True)
-    principal = relation(Principal, backref=backref('global_roles',
+    principal = relation(Principal, backref=backref('global_roles_',
         cascade='all, delete-orphan'))
     role = Column(Unicode(), primary_key=True)
 
@@ -84,4 +84,5 @@ class GlobalRoles(models.Base):
         self.role = role
 
     def __repr__(self):
-        return '%s for %s' % (self.role, self.principal)
+        title = self.principal.fullname or self.principal.email
+        return '%s for "%s"' % (self.role, title)

@@ -12,4 +12,4 @@ def test_global_roles(alice):
     assert alice.global_roles == []
     alice.update(global_roles=[u'admin', u'reseller'])
     refetched = Principal.query.filter_by(id=alice.id).one()
-    assert refetched.global_roles_proxy == [u'admin', u'reseller']
+    assert refetched.global_roles == [u'admin', u'reseller']

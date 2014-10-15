@@ -6,7 +6,7 @@ from transaction import commit
 from .principals import Principal
 
 
-def add_user(**kw):  # pragma: no cover
+def add_user(**kw):
     parser = ArgumentParser(description='Create user account')
     parser.add_argument('-c', '--config', type=str, default='production.ini',
         help='app configuration file')
