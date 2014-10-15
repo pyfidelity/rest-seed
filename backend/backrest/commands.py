@@ -10,8 +10,9 @@ def add_user(**kw):  # pragma: no cover
     parser = ArgumentParser(description='Create user account')
     parser.add_argument('-c', '--config', type=str, default='production.ini',
         help='app configuration file')
-    parser.add_argument('-u', '--name', type=str, help='name of the user')
-    parser.add_argument('-e', '--email', type=str, help='email of the user')
+    parser.add_argument('email', type=str, help='email of the user')
+    parser.add_argument('-f', '--firstname', type=str, help='first name of the user')
+    parser.add_argument('-l', '--lastname', type=str, help='last name of the user')
     parser.add_argument('-p', '--password', type=str,
         help='password of the user (will be encrypted)')
     parser.add_argument('-a', '--active', type=bool, default=True,
