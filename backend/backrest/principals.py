@@ -73,14 +73,15 @@ class Principal(models.Base):
 
 
 class GlobalRoles(models.Base):
-    principal_id = Column(Integer(), ForeignKey('principal.id'),
-        nullable=False,
-        primary_key=True)
-    principal = relation(Principal, backref=backref('global_roles', cascade="all, delete-orphan"))
-    role = Column(Unicode(), nullable=False, primary_key=True)
+    """ Global roles, which can be assigned to principals. """
+
+    principal_id = Column(Integer, ForeignKey(Principal.id), primary_key=True)
+    principal = relation(Principal, backref=backref('global_roles',
+        cascade='all, delete-orphan'))
+    role = Column(Unicode(), primary_key=True)
 
     def __init__(self, role):
         self.role = role
 
     def __repr__(self):
-        return u'%s for %s' % (self.role, self.principal)
+        return '%s for %s' % (self.role, self.principal)
