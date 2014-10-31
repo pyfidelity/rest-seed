@@ -9,6 +9,7 @@ from transaction import commit
 
 from .models import db_session, metadata, Root
 from .principals import get_user
+from .security import list_roles_callback
 from .utils import create_db_engine, redirect
 
 
@@ -41,7 +42,7 @@ def configure(global_config, **settings):
     config.begin()
     config.include('pyramid_chameleon')
     config.set_authentication_policy(AuthTktAuthenticationPolicy(
-        secret=settings['auth.secret'], hashalg='sha512'))
+        secret=settings['auth.secret'], hashalg='sha512', callback=list_roles_callback))
     config.set_authorization_policy(ACLAuthorizationPolicy())
     config.set_request_property(get_user, name='user', reify=True)
     config.set_root_factory(lambda request: Root())
