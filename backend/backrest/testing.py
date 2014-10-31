@@ -149,6 +149,18 @@ def app(config):
 
 
 @fixture
+def dummy_request(request, config):
+    config.manager.get()['request'] = req = DummyRequest()
+    if 'user' in request.keywords:
+        # set user directly on request
+        username = request.keywords['user'].args[0]
+        req.user = request.getfuncargvalue(username)    # get user from their fixture
+    else:
+        req.user = None
+    return req
+
+
+@fixture
 def browser(db_session, app, request):
     """ Returns an instance of `webtest.TestApp`.  The `user` pytest marker
         (`pytest.mark.user`) can be used to pre-authenticate the browser

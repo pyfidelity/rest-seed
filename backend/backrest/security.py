@@ -41,3 +41,10 @@ def make_factory(salt):
             return payload
 
     return factory
+
+
+def list_roles_callback(username, request):
+    """ Authentication policy callback that queries ``principals.GlobalRoles``. """
+    from .principals import GlobalRoles
+    return ['role:%s' % role.role
+        for role in GlobalRoles.query.filter_by(principal_id=username)]
