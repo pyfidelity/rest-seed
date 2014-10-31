@@ -16,7 +16,8 @@ db_session = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 class Base(object):
 
     __acl__ = [
-        (Allow, Authenticated, ['view', 'edit', 'delete']),
+        (Allow, Authenticated, ['view']),
+        (Allow, 'owner', ['edit', 'delete']),
     ]
 
     @declared_attr

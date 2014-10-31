@@ -44,7 +44,18 @@ def make_factory(salt):
 
 
 def list_roles_callback(username, request):
-    """ Authentication policy callback that queries ``principals.GlobalRoles``. """
-    from .principals import GlobalRoles
-    return ['role:%s' % role.role
-        for role in GlobalRoles.query.filter_by(principal_id=username)]
+    """ Authentication policy callback that queries ``principals.GlobalRoles``
+        to list global roles and also checks the current context in order
+        to grant the "owner" role. """
+    from .models import Content
+    from .principals import Principal, GlobalRoles
+    roles = []
+    user_id = int(username)
+    context = getattr(request, 'context', None)
+    if isinstance(context, Principal) and context.id == user_id:
+        roles.append('owner')
+    elif isinstance(context, Content) and context.owner_id == user_id:
+        roles.append('owner')
+    for role in GlobalRoles.query.filter_by(principal_id=username):
+        roles.append('role:%s' % role.role)
+    return roles
