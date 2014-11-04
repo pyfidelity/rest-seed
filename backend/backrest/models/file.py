@@ -26,9 +26,10 @@ class File(Base):
     def update(self, filename, mimetype=None, data=None, id=None):
         self.filename = filename
         self.mimetype = mimetype
-        if data is not None:
+        if self.path is None:
             _, extension = splitext(filename)
             self.path = self.generate_path(extension)
+        if data is not None:
             base64 = match(r'^data:([\w/]+);base64,(.*)', data)
             if base64 is not None:
                 self.mimetype, data = base64.groups()
