@@ -46,10 +46,10 @@ class NonableMapping(Mapping):
 
 class FileSchema(MappingSchema):
     schema_type = NonableMapping
-    id = SchemaNode(Integer(), missing=None)
+    id = SchemaNode(Integer(), missing=null)
     data = SchemaNode(String(), missing=None)
     filename = SchemaNode(String(), missing=None)
-    mimetype = SchemaNode(String(), missing=None)
+    mimetype = SchemaNode(String(), missing=null)
 
 
 def MissingOrRequiredNode():
@@ -58,6 +58,6 @@ def MissingOrRequiredNode():
 
 
 class ContentSchema(MappingSchema):
-    id = SchemaNode(Integer(), missing=None)
+    id = SchemaNode(Integer(), missing=null)
     title = MissingOrRequiredNode()
     description = SchemaNode(String(), missing=null)

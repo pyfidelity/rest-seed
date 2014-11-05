@@ -23,8 +23,8 @@ class File(Base):
     def __init__(self, filename, **data):
         self.add(filename=filename, **data)
 
-    def update(self, filename=None, mimetype=None, data=None, id=None):
-        self.mimetype = mimetype
+    def update(self, filename=None, data=None, **kw):
+        super(File, self).update(**kw)
         if filename is not None:
             self.filename = filename
             if self.path is None:
