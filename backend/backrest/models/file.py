@@ -20,15 +20,16 @@ class File(Base):
     mimetype = Column(String())
     size = Column(Integer())
 
-    def __init__(self, **data):
-        self.add(**data)
+    def __init__(self, filename, **data):
+        self.add(filename=filename, **data)
 
-    def update(self, filename, mimetype=None, data=None, id=None):
-        self.filename = filename
+    def update(self, filename=None, mimetype=None, data=None, id=None):
         self.mimetype = mimetype
-        if self.path is None:
-            _, extension = splitext(filename)
-            self.path = self.generate_path(extension)
+        if filename is not None:
+            self.filename = filename
+            if self.path is None:
+                _, extension = splitext(filename)
+                self.path = self.generate_path(extension)
         if data is not None:
             base64 = match(r'^data:([\w/]+);base64,(.*)', data)
             if base64 is not None:
