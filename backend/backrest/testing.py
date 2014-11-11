@@ -21,6 +21,10 @@ def get_distribution():
     return distribution
 
 
+def project_name():
+    return get_distribution().project_name.replace('-', '_')
+
+
 def as_dict(content, **kw):
     return dict(loads(render('json', content, DummyRequest())), **kw)
 
@@ -71,7 +75,7 @@ def connection(models, request):
     from .models import db_session, metadata
     from .utils import create_db_engine
     engine = create_db_engine(suffix='_test',
-        project_name=get_distribution().project_name, **settings)
+        project_name=project_name(), **settings)
     try:
         connection = engine.connect()
     except OperationalError:

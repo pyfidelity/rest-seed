@@ -13,7 +13,7 @@ from subprocess import call, Popen, PIPE
 @fixture
 def settings(testing):
     # we use our own db for this test, since it will be created and dropped
-    project_name = testing.get_distribution().project_name
+    project_name = testing.project_name()
     db_name = '%s_migration_test' % project_name
     return {
         'db_name': db_name,
