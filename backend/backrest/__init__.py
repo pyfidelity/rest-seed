@@ -13,6 +13,10 @@ from .security import list_roles_callback
 from .utils import create_db_engine, redirect
 
 
+# project/package name
+project_name = 'foobar'
+
+
 # prepare for translation factory
 _ = lambda string: string
 

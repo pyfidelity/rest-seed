@@ -1,7 +1,5 @@
 from cookielib import Cookie, parse_ns_headers
 from json import loads
-from os import getcwd
-from pkg_resources import working_set
 from pyramid.renderers import render
 from pyramid.security import remember
 from pyramid.testing import DummyRequest
@@ -15,14 +13,9 @@ from urllib import unquote
 from webtest import TestApp as TestAppBase
 
 
-def get_distribution():
-    cwd = getcwd()
-    distribution, = [entry for entry in working_set if entry.location == cwd]
-    return distribution
-
-
 def project_name():
-    return get_distribution().project_name.replace('-', '_')
+    from . import project_name
+    return project_name
 
 
 def as_dict(content, **kw):
