@@ -1,8 +1,12 @@
 from argparse import ArgumentParser
 from os.path import abspath
+from pkg_resources import get_distribution
 from pyramid.paster import get_app
+from subprocess import check_output, CalledProcessError
+from sys import exit
 from transaction import commit
 
+from . import project_name
 from .principals import Principal
 
 
@@ -23,3 +27,20 @@ def add_user(**kw):
     get_app(abspath(data.pop('config')))    # setup application
     Principal(**data)
     commit()
+
+
+def dev_version(**kw):
+    parser = ArgumentParser(description='Print development version')
+    parser.add_argument('-f', '--full', dest='full', action='store_true',
+        help='output full version')
+    args = parser.parse_args(**kw)
+    cmd = 'git describe --long --tags --dirty'
+    try:
+        version = check_output(cmd.split()).strip()
+    except CalledProcessError:
+        print('Please create a tag first!')
+        exit(1)
+    if not args.full:
+        dist = get_distribution(project_name)
+        version = version.replace(dist.version, '', 1)
+    print(version)

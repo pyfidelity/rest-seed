@@ -1,7 +1,5 @@
 from cookielib import Cookie, parse_ns_headers
 from json import loads
-from os import getcwd
-from pkg_resources import working_set
 from pyramid.renderers import render
 from pyramid.security import remember
 from pyramid.testing import DummyRequest
@@ -15,10 +13,9 @@ from urllib import unquote
 from webtest import TestApp as TestAppBase
 
 
-def get_distribution():
-    cwd = getcwd()
-    distribution, = [entry for entry in working_set if entry.location == cwd]
-    return distribution
+def project_name():
+    from . import project_name
+    return project_name
 
 
 def as_dict(content, **kw):
@@ -71,7 +68,7 @@ def connection(models, request):
     from .models import db_session, metadata
     from .utils import create_db_engine
     engine = create_db_engine(suffix='_test',
-        project_name=get_distribution().project_name, **settings)
+        project_name=project_name(), **settings)
     try:
         connection = engine.connect()
     except OperationalError:

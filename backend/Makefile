@@ -7,11 +7,15 @@ all: bin/pserve initdb
 tests: bin/py.test
 	bin/py.test
 
-bin/pserve bin/py.test: bin/python bin/pip setup.py
+bin/pserve bin/py.test bin/dev-version: bin/python bin/pip setup.py
 	bin/python setup.py dev
 
 bin/python bin/pip:
 	virtualenv-$(version) .
+
+sdist: rev = $(shell bin/dev-version)
+sdist: bin/python bin/dev-version setup.py
+	bin/python setup.py egg_info -b $(rev) sdist
 
 initdb: name = $(shell bin/python setup.py --name)
 initdb: bin/python
