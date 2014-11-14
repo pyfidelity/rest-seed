@@ -11,7 +11,8 @@ from sqlalchemy import Unicode
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import relation, backref
 
-from . import models, security
+from . import security
+from .models.base import Base
 
 
 def get_user(request):
@@ -27,7 +28,7 @@ def find_user(login):
         func.lower(Principal.email) == login.lower()).scalar()
 
 
-class Principal(models.Base):
+class Principal(Base):
     """ An implementation of 'Principal', i.e. users and groups. """
 
     id = Column(Integer, primary_key=True)
@@ -72,7 +73,7 @@ class Principal(models.Base):
         return security.validate_password(clear, self.password)
 
 
-class GlobalRoles(models.Base):
+class GlobalRoles(Base):
     """ Global roles, which can be assigned to principals. """
 
     principal_id = Column(Integer, ForeignKey(Principal.id), primary_key=True)
