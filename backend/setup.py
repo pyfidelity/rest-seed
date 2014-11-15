@@ -5,6 +5,9 @@ version = '0.1-dev'
 
 setup(name=name,
     version=version,
+    url='https://github.com/pyfidelity/rest-seed',
+    author='pyfidelity.com',
+    author_email='mail@pyfidelity.com',
     description='...',
     classifiers=[
         "Programming Language :: Python",
