@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 name = 'foobar'
-version = 'v1-dev'
+version = '0.1-dev'
 
 setup(name=name,
     version=version,
