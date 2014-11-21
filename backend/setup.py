@@ -1,10 +1,22 @@
 from setuptools import setup, find_packages
+from subprocess import check_output
 
 name = 'foobar'
-version = '0.1-dev'
+
+
+def version():
+    base = check_output('git describe --tags'.split()).strip()
+    full = check_output('git describe --tags --long --dirty'.split()).strip()
+    rest = full.lstrip(base)
+    if rest.startswith('-0-') and not rest.endswith('-dirty'):
+        version = base
+    else:
+        version = full
+    return version
+
 
 setup(name=name,
-    version=version,
+    version=version(),
     url='https://github.com/pyfidelity/rest-seed',
     author='pyfidelity UG',
     author_email='mail@pyfidelity.com',
