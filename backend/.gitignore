@@ -4,6 +4,7 @@
 /.cache/
 /.coverage
 /.tox/
+/backrest/version.txt
 /bin/
 /dist/
 /htmlcov/

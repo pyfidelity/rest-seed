@@ -2,21 +2,26 @@ from setuptools import setup, find_packages
 from subprocess import check_output
 
 name = 'foobar'
+version_file = 'backrest/version.txt'
 
 
-def version():
+# update version from git
+try:
     base = check_output('git describe --tags'.split()).strip()
     full = check_output('git describe --tags --long --dirty'.split()).strip()
+except:
+    pass
+else:
     rest = full.lstrip(base)
     if rest.startswith('-0-') and not rest.endswith('-dirty'):
         version = base
     else:
         version = full
-    return version
+    open(version_file, 'wb').write(version)
 
 
 setup(name=name,
-    version=version(),
+    version=open(version_file, 'rb').read(),
     url='https://github.com/pyfidelity/rest-seed',
     author='pyfidelity UG',
     author_email='mail@pyfidelity.com',
@@ -28,7 +33,9 @@ setup(name=name,
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
     ],
     packages=find_packages(),
-    include_package_data=True,
+    package_data={
+        'backrest': ['version.txt'],
+    },
     zip_safe=False,
     install_requires=[
         'alembic',
