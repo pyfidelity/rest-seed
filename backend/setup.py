@@ -34,7 +34,7 @@ setup(name=name,
     ],
     packages=find_packages(),
     package_data={
-        'backrest': ['version.txt'],
+        'backrest': ['version.txt', 'templates/*.html'],
     },
     zip_safe=False,
     install_requires=[
