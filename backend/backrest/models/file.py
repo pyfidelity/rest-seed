@@ -2,6 +2,7 @@ from base64 import decodestring
 from os.path import join, splitext, abspath
 from re import match
 from repoze.filesafe import create_file, open_file
+from sqlalchemy import BigInteger
 from sqlalchemy import Column
 from sqlalchemy import Integer
 from sqlalchemy import String
@@ -18,7 +19,7 @@ class File(Base):
     path = Column(String(128), nullable=False, unique=True)
     filename = Column(Unicode())
     mimetype = Column(String())
-    size = Column(Integer())
+    size = Column(BigInteger())
 
     def __init__(self, filename, **data):
         self.add(filename=filename, **data)

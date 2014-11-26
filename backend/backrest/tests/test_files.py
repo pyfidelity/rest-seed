@@ -38,6 +38,11 @@ def test_create_file_with_base64_data(models, tmpdir, db_session):
     assert open(testfile.filesystem_path).read() == '123456'
 
 
+def test_create_large_file(models, db_session):
+    testfile = models.File(filename=u'test.txt', size=2655139905)
+    assert testfile.size == 2655139905
+
+
 def test_delete_file(models, testfile, db_session):
     db_session.delete(testfile)
     # the file hasn't yet been deleted...
