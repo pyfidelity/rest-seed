@@ -17,6 +17,9 @@ else:
         version = base
     else:
         version = full
+    if version.endswith('-dirty'):
+        from sys import exit
+        exit('Checkout is dirty! Please commit all changes first.')
     open(version_file, 'wb').write(version)
 
 
