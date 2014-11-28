@@ -1,5 +1,7 @@
 from setuptools import setup, find_packages
 from subprocess import check_output
+from sys import exit
+
 
 name = 'foobar'
 version_file = 'backrest/version.txt'
@@ -13,13 +15,12 @@ except:
     pass
 else:
     rest = full.lstrip(base)
-    if rest.startswith('-0-') and not rest.endswith('-dirty'):
+    if rest.endswith('-dirty'):
+        exit('Checkout is dirty! Please commit all changes first.')
+    elif rest.startswith('-0-'):
         version = base
     else:
         version = full
-    if version.endswith('-dirty'):
-        from sys import exit
-        exit('Checkout is dirty! Please commit all changes first.')
     open(version_file, 'wb').write(version)
 
 
