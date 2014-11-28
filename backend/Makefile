@@ -9,6 +9,7 @@ tests: bin/py.test
 
 bin/pserve bin/py.test: bin/python bin/pip setup.py
 	bin/python setup.py dev
+	@touch $@
 
 bin/python bin/pip:
 	virtualenv-$(version) .
