@@ -11,7 +11,7 @@ app_info = Service(name='appinfo', path=path(''),
 @app_info.get()
 def get_app_info(request):
     settings = request.registry.settings
-    result = dict(debug=asbool(settings.debug), demo=asbool(settings.demo))
+    result = dict(debug=asbool(settings.debug))
     if request.user is None:
         result['authenticated'] = False
     else:
