@@ -14,7 +14,7 @@ try:
 except:
     pass
 else:
-    rest = full.lstrip(base)
+    rest = full.replace(base, '', 1)
     if rest.endswith('-dirty'):
         exit('Checkout is dirty! Please commit all changes first.')
     elif rest.startswith('-0-'):
