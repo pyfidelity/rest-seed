@@ -13,7 +13,7 @@ bin/pserve bin/py.test: bin/python bin/pip setup.py
 bin/python bin/pip:
 	virtualenv-$(version) .
 
-upload: setup.py
+upload: setup.py bin/py.test
 	devpi upload --no-vcs
 
 initdb: name = $(shell bin/python setup.py --name)
