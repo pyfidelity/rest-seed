@@ -20,7 +20,7 @@ else:
     elif rest.startswith('-0-'):
         version = base
     else:
-        version = full
+        version = full.replace('-', '.', 1)
     open(version_file, 'wb').write(version)
 
 
