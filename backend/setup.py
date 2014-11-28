@@ -81,6 +81,5 @@ setup(name=name,
         backrest = backrest.testing
         [console_scripts]
         add-user = backrest.commands:add_user
-        dev-version = backrest.commands:dev_version
     """,
 )
