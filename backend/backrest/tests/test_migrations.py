@@ -60,7 +60,7 @@ def dumpdb(db_name):
     return ['%s\n' % x for x in out]
 
 
-@mark.skipif(environ.get('_', '').endswith('/tox'), reason='alembic not distributed')
+@mark.skipif(environ.get('_', '').rsplit('/', 1)[-1] in ('tox', 'devpi'), reason='alembic not distributed')
 def test_db_metadata_differences(models, settings):
     db_name = settings['db_name']
     # first we drop anything there might be
