@@ -15,9 +15,7 @@ except:
     pass
 else:
     rest = full.replace(base, '', 1)
-    if rest.endswith('-dirty'):
-        exit('Checkout is dirty! Please commit all changes first.')
-    elif rest.startswith('-0-'):
+    if rest.startswith('-0-') and not rest.endswith('-dirty'):
         version = base
     else:
         version = full.replace('-', '.', 1)
