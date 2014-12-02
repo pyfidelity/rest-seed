@@ -43,6 +43,9 @@ setup(name=name,
             'tests/*.py',
         ],
     },
+    data_files=[
+        ('', ['alembic.ini'])
+    ],
     zip_safe=False,
     install_requires=[
         'alembic',
