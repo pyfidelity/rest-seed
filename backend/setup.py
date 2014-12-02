@@ -37,6 +37,8 @@ setup(name=name,
     package_data={
         'backrest': [
             'version.txt',
+            'migrations/*.py',
+            'migrations/versions/*.py',
             'templates/*.html',
             'tests/*.py',
         ],

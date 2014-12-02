@@ -3,8 +3,7 @@ from alembic.environment import EnvironmentContext
 from alembic.migration import MigrationContext
 from alembic.script import ScriptDirectory
 from difflib import unified_diff
-from os import environ
-from pytest import fixture, mark
+from pytest import fixture
 from re import split
 from sqlalchemy import engine_from_config
 from subprocess import call, Popen, PIPE
@@ -59,7 +58,6 @@ def dumpdb(db_name):
     return ['%s\n' % x for x in out]
 
 
-@mark.skipif(environ.get('_', '').rsplit('/', 1)[-1] in ('tox', 'devpi'), reason='alembic not distributed')
 def test_db_metadata_differences(models, settings):
     db_name = settings['db_name']
     # first we drop anything there might be
