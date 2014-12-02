@@ -1,14 +1,14 @@
 """ add current db state
 
 Revision ID: 2fa92ef6570b
-Revises: 411ac9c908e2
+Revises: None
 Create Date: 2013-09-16 13:24:47.579179
 
 """
 
 # revision identifiers, used by Alembic.
 revision = '2fa92ef6570b'
-down_revision = '411ac9c908e2'
+down_revision = None
 
 from alembic import op
 import sqlalchemy as sa
