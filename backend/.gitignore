@@ -4,7 +4,10 @@
 /.cache/
 /.coverage
 /.tox/
+/backrest/version.txt
 /bin/
+/build/
+/dist/
 /htmlcov/
 /include/
 /lib/

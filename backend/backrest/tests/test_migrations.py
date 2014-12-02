@@ -3,7 +3,6 @@ from alembic.environment import EnvironmentContext
 from alembic.migration import MigrationContext
 from alembic.script import ScriptDirectory
 from difflib import unified_diff
-from pkg_resources import resource_filename
 from pytest import fixture
 from re import split
 from sqlalchemy import engine_from_config
@@ -77,8 +76,7 @@ def test_db_metadata_differences(models, settings):
     dropdb(db_name)
     createdb(db_name)
     config = Config()
-    config.set_main_option('script_location',
-        resource_filename(models.__name__, '../../alembic'))
+    config.set_main_option('script_location', 'backrest:migrations')
     script = ScriptDirectory.from_config(config)
     connection = engine.connect()
     environment = EnvironmentContext(config, script,

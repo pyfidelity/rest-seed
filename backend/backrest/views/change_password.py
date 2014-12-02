@@ -3,6 +3,7 @@
 
   .. testsetup::
 
+    >>> _ = getfixture('db_session')
     >>> Principal = getfixture('principals').Principal
     >>> _ = Principal(email=u'alice@foo.com', password=u'alice',
     ...   firstname=u'Alice', lastname=u'Kingsleigh')

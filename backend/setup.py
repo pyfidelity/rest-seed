@@ -1,10 +1,31 @@
 from setuptools import setup, find_packages
+from subprocess import check_output
+
 
 name = 'foobar'
-version = 'v1-dev'
+version_file = 'backrest/version.txt'
+
+
+# update version from git
+try:
+    base = check_output('git describe --tags'.split()).strip()
+    full = check_output('git describe --tags --long --dirty'.split()).strip()
+except:
+    pass
+else:
+    rest = full.replace(base, '', 1)
+    if rest.startswith('-0-') and not rest.endswith('-dirty'):
+        version = base
+    else:
+        version = full.replace('-', '.', 1)
+    open(version_file, 'wb').write(version)
+
 
 setup(name=name,
-    version=version,
+    version=open(version_file, 'rb').read(),
+    url='https://github.com/pyfidelity/rest-seed',
+    author='pyfidelity UG',
+    author_email='mail@pyfidelity.com',
     description='...',
     classifiers=[
         "Programming Language :: Python",
@@ -13,7 +34,18 @@ setup(name=name,
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
     ],
     packages=find_packages(),
-    include_package_data=True,
+    package_data={
+        'backrest': [
+            'version.txt',
+            'migrations/*.py',
+            'migrations/versions/*.py',
+            'templates/*.html',
+            'tests/*.py',
+        ],
+    },
+    data_files=[
+        ('', ['alembic.ini'])
+    ],
     zip_safe=False,
     install_requires=[
         'alembic',
@@ -59,6 +91,5 @@ setup(name=name,
         backrest = backrest.testing
         [console_scripts]
         add-user = backrest.commands:add_user
-        dev-version = backrest.commands:dev_version
     """,
 )

@@ -3,6 +3,7 @@
 
   .. testsetup::
 
+    >>> _ = getfixture('db_session')
     >>> browser = getfixture('browser')
 
   .. doctest::
