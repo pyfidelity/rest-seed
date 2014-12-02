@@ -1,6 +1,5 @@
 from setuptools import setup, find_packages
 from subprocess import check_output
-from sys import exit
 
 
 name = 'foobar'
@@ -36,7 +35,11 @@ setup(name=name,
     ],
     packages=find_packages(),
     package_data={
-        'backrest': ['version.txt', 'templates/*.html', 'tests/*.py'],
+        'backrest': [
+            'version.txt',
+            'templates/*.html',
+            'tests/*.py',
+        ],
     },
     zip_safe=False,
     install_requires=[
