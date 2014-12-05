@@ -15,7 +15,8 @@ bin/python bin/pip:
 	virtualenv-$(version) .
 
 upload: setup.py bin/py.test
-	devpi upload --no-vcs
+	$(MAKE) -C ../deployment
+	PATH=${PWD}/bin:${PATH} ../deployment/bin/devpi upload --no-vcs --with-docs
 
 initdb: name = $(shell bin/python setup.py --name)
 initdb: bin/python
