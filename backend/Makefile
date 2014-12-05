@@ -5,7 +5,7 @@ version = 2.7
 all: bin/pserve initdb
 
 tests: bin/py.test
-	bin/py.test
+	@bin/py.test
 
 bin/pserve bin/py.test: bin/python bin/pip setup.py
 	bin/python setup.py dev
