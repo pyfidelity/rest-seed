@@ -24,4 +24,4 @@ initdb: bin/python
 clean:
 	git clean -fXd
 
-.PHONY: initdb clean tests dist
+.PHONY: initdb clean tests upload
