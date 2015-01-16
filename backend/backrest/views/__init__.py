@@ -20,7 +20,10 @@ def id_factory(model):
         is raised. """
     def factory(request):
         if request.matchdict is not None and 'id' in request.matchdict:
-            cid = int(request.matchdict['id'])
+            try:
+                cid = int(request.matchdict['id'])
+            except ValueError:
+                raise NotFound()
             context = model.query.filter_by(id=cid).first()
             if context is None:
                 raise NotFound()
