@@ -1,7 +1,5 @@
 # convenience makefile to set up the backend
 
-version = 2.7
-
 all: bin/pserve initdb
 
 tests: bin/py.test
@@ -12,7 +10,7 @@ bin/pserve bin/py.test: bin/python bin/pip setup.py
 	@touch $@
 
 bin/python bin/pip:
-	virtualenv-$(version) .
+	virtualenv .
 
 upload: setup.py bin/py.test
 	$(MAKE) -C ../deployment
