@@ -82,6 +82,7 @@ setup(name=name,
             'pyquery',
             'mr.hermes',
             'setuptools-git',
+            'readline',
         ],
     },
     entry_points="""
