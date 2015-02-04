@@ -45,7 +45,7 @@ def valid_user(request):
     user = principals.find_user(login=login)
     if user is not None and user.active and user.validate_password(password):
         user.last_login_date = datetime.utcnow()
-        request.response.headers.extend(remember(request, user.id))
+        request.response.headers.extend(remember(request, str(user.id)))
         request.user = user
     else:
         request.errors.add('body', 'login', _('Login failed'))
