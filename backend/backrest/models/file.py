@@ -7,6 +7,7 @@ from sqlalchemy import Column
 from sqlalchemy import Integer
 from sqlalchemy import String
 from sqlalchemy import Unicode
+from sqlalchemy.dialects.postgresql import UUID
 from uuid import uuid1
 
 from .. import utils
@@ -16,21 +17,19 @@ from .base import Base
 class File(Base):
 
     id = Column(Integer(), primary_key=True, autoincrement=True)
-    path = Column(String(128), nullable=False, unique=True)
+    uuid = Column(UUID(as_uuid=True), nullable=False, unique=True, index=True)
     filename = Column(Unicode())
     mimetype = Column(String())
     size = Column(BigInteger())
 
     def __init__(self, filename, **data):
+        self.uuid = uuid1()
         self.add(filename=filename, **data)
 
-    def update(self, filename=None, data=None, **kw):
+    def update(self, filename=None, data=None, uuid=None, **kw):
         super(File, self).update(**kw)
         if filename is not None:
             self.filename = filename
-            if self.path is None:
-                _, extension = splitext(filename)
-                self.path = self.generate_path(extension)
         if data is not None:
             base64 = match(r'^data:([\w/]+);base64,(.*)', data)
             if base64 is not None:
@@ -46,11 +45,12 @@ class File(Base):
             data = fd.read()    # beware, this will load all data into memory!
         return data
 
-    @staticmethod
-    def generate_path(extension):
-        """ Generate a filename within the storage. It will be based on a
+    @property
+    def path(self):
+        """ Provide a filename within the storage. It will be based on a
             version 1 UUID and the given extension. """
-        return '%s.%s' % (uuid1(), extension.lstrip('.'))
+        _, extension = splitext(self.filename)
+        return '%s.%s' % (self.uuid, extension.lstrip('.'))
 
     @property
     def filesystem_path(self):
