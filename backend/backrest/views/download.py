@@ -7,7 +7,7 @@ from .. import models
 
 
 def factory(request):
-    context = models.File.query.get(int(request.matchdict['id']))
+    context = models.File.query.filter_by(uuid=request.matchdict['uuid']).one()
     if context is None:
         raise NotFound()
     return context
@@ -25,4 +25,4 @@ def download(context, request):
 
 
 def includeme(config):
-    config.add_route('download', '/-/{id}~', factory=factory)
+    config.add_route('download', '/-/{uuid}~', factory=factory)

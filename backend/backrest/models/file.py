@@ -61,4 +61,4 @@ class File(Base):
     def __json__(self, request):
         return dict(id=self.id, filename=self.filename,
             mimetype=self.mimetype, size=self.size,
-            url=request.route_url('download', id=self.id))
+            url=request.route_url('download', uuid=self.uuid))
