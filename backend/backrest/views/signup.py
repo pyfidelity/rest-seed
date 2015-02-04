@@ -82,7 +82,7 @@ def signup_confirm(request):
     user = principals.find_user(payload['email'])
     if not user.active:
         user.active = True
-        headers = remember(request, user.id)
+        headers = remember(request, str(user.id))
         return request.redirect(target='signup_confirm.success', headers=headers)
     else:
         raise Forbidden
