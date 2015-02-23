@@ -48,8 +48,8 @@ def current_missing(node, kw):
 def validate_current_password(node, param):
     """ Validator to make sure the current password was given and matches """
     request = utils.get_request()
-    if (request.user is not None and request.user.password is not None
-            and not request.user.validate_password(param)):
+    if (request.user is not None and request.user.password is not None and
+            not request.user.validate_password(param)):
         raise Invalid(node, _(u'Password does not match'))
 
 
