@@ -13,8 +13,7 @@ bin/python bin/pip:
 	virtualenv .
 
 upload: setup.py bin/py.test
-	$(MAKE) -C ../deployment
-	PATH=${PWD}/bin:${PATH} ../deployment/bin/devpi upload --no-vcs --with-docs
+	PATH=${PWD}/bin:${PATH} bin/devpi upload --no-vcs --with-docs
 
 initdb: name = $(shell bin/python setup.py --name)
 initdb: bin/python

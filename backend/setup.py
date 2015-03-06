@@ -83,6 +83,7 @@ setup(name=name,
             'mr.hermes',
             'setuptools-git',
             'readline',
+            'devpi-client',
         ],
     },
     entry_points="""
