@@ -21,6 +21,8 @@ class Base(object):
         (Allow, 'owner', ['edit', 'delete']),
     ]
 
+    plural = True
+
     @declared_attr
     def __tablename__(cls):
         return cls.__name__.lower()
@@ -56,7 +58,8 @@ class Base(object):
 
     @classmethod
     def collection_path(cls):
-        return '/-/{0}s'.format(cls.__name__.lower())
+        path = '/-/{0}s' if cls.plural else '/-/{0}'
+        return path.format(cls.__name__.lower())
 
     @property
     def path(self):
