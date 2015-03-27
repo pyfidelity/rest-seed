@@ -50,7 +50,7 @@ setup(name=name,
     install_requires=[
         'alembic',
         'bcrypt',
-        'colander',
+        'colander >= 1.0b1',
         'cornice >= 0.15',
         'html2text',
         'itsdangerous',

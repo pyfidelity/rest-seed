@@ -1,5 +1,5 @@
 from colander import MappingSchema, SchemaNode, Mapping
-from colander import String, Integer
+from colander import String
 from colander import Invalid, null, deferred, required
 
 
@@ -46,10 +46,9 @@ class NonableMapping(Mapping):
 
 class FileSchema(MappingSchema):
     schema_type = NonableMapping
-    id = SchemaNode(Integer(), missing=None)
     data = SchemaNode(String(), missing=None)
     filename = SchemaNode(String(), missing=None)
-    mimetype = SchemaNode(String(), missing=None)
+    mimetype = SchemaNode(String(), missing=null)
 
 
 def MissingOrRequiredNode():
@@ -58,6 +57,5 @@ def MissingOrRequiredNode():
 
 
 class ContentSchema(MappingSchema):
-    id = SchemaNode(Integer(), missing=None)
     title = MissingOrRequiredNode()
     description = SchemaNode(String(), missing=null)
