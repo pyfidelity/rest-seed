@@ -19,6 +19,7 @@ else:
     else:
         version = full.replace('-', '.dev', 1)
         version = version.replace('-', '+', 1)
+        version = version.replace('-', '.')
     open(version_file, 'wb').write(version)
 
 
