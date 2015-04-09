@@ -1,9 +1,9 @@
 from setuptools import setup, find_packages
 from subprocess import check_output
+from pkg_resources import get_distribution
 
 
 name = 'foobar'
-version_file = 'backrest/version.txt'
 
 
 # update version from git
@@ -11,7 +11,7 @@ try:
     base = check_output('git describe --tags'.split()).strip()
     full = check_output('git describe --tags --long --dirty'.split()).strip()
 except:
-    pass
+    version = get_distribution(name).version
 else:
     rest = full.replace(base, '', 1)
     if rest.startswith('-0-') and not rest.endswith('-dirty'):
@@ -20,11 +20,10 @@ else:
         version = full.replace('-', '.dev', 1)
         version = version.replace('-', '+', 1)
         version = version.replace('-', '.')
-    open(version_file, 'wb').write(version)
 
 
 setup(name=name,
-    version=open(version_file, 'rb').read(),
+    version=version,
     url='https://github.com/pyfidelity/rest-seed',
     author='pyfidelity UG',
     author_email='mail@pyfidelity.com',
@@ -38,7 +37,6 @@ setup(name=name,
     packages=find_packages(),
     package_data={
         'backrest': [
-            'version.txt',
             'migrations/*.py',
             'migrations/versions/*.py',
             'templates/*.html',
