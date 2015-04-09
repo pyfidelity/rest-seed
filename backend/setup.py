@@ -17,7 +17,8 @@ else:
     if rest.startswith('-0-') and not rest.endswith('-dirty'):
         version = base
     else:
-        version = full.replace('-', '.', 1)
+        version = full.replace('-', '.dev', 1)
+        version = version.replace('-', '+', 1)
     open(version_file, 'wb').write(version)
 
 
