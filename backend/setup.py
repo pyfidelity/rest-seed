@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 
 setup(name='foobar',
-    version_format='{tag}.dev{commitcount}+{gitsha}',
+    version_format='{tag}.{commitcount}+{gitsha}',
     url='https://github.com/pyfidelity/rest-seed',
     author='pyfidelity UG',
     author_email='mail@pyfidelity.com',
