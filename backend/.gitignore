@@ -1,10 +1,10 @@
-*.egg-info/
 *.pyc
+/*.egg-info/
 /.Python
 /.cache/
 /.coverage
+/.eggs/
 /.tox/
-/backrest/version.txt
 /bin/
 /build/
 /dist/

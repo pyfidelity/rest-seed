@@ -2,17 +2,14 @@
 
 all: bin/pserve initdb
 
-tests: bin/py.test
-	@bin/py.test
-
-bin/pserve bin/py.test: bin/python bin/pip setup.py
+bin/pserve bin/devpi: bin/python setup.py
 	bin/python setup.py dev
 	@touch $@
 
 bin/python bin/pip:
 	virtualenv .
 
-upload: setup.py bin/py.test
+upload: setup.py bin/devpi
 	PATH=${PWD}/bin:${PATH} bin/devpi upload --no-vcs --with-docs
 
 initdb: name = $(shell bin/python setup.py --name)
@@ -22,4 +19,4 @@ initdb: bin/python
 clean:
 	git clean -fXd
 
-.PHONY: initdb clean tests upload
+.PHONY: initdb clean upload
