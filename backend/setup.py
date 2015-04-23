@@ -22,9 +22,6 @@ setup(name='foobar',
             'tests/*.py',
         ],
     },
-    data_files=[
-        ('', ['alembic.ini'])
-    ],
     zip_safe=False,
     setup_requires=[
         'setuptools-git >= 0',
