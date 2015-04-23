@@ -27,7 +27,8 @@ setup(name='foobar',
     ],
     zip_safe=False,
     setup_requires=[
-        'setuptools-git-version'
+        'setuptools-git',
+        'setuptools-git-version',
     ],
     install_requires=[
         'alembic',
