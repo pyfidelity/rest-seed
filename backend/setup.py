@@ -27,7 +27,7 @@ setup(name='foobar',
     ],
     zip_safe=False,
     setup_requires=[
-        'setuptools-git',
+        'setuptools-git >= 0',
         'setuptools-git-version',
     ],
     install_requires=[
