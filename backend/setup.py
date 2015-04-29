@@ -22,12 +22,10 @@ setup(name='foobar',
             'tests/*.py',
         ],
     },
-    data_files=[
-        ('', ['alembic.ini'])
-    ],
     zip_safe=False,
     setup_requires=[
-        'setuptools-git-version'
+        'setuptools-git >= 0',
+        'setuptools-git-version',
     ],
     install_requires=[
         'alembic',
@@ -50,19 +48,8 @@ setup(name='foobar',
     ],
     extras_require={
         'development': [
-            'webtest',
             'Sphinx',
             'repoze.sphinx.autointerface',
-            'flake8',
-            'mock',
-            'pep8 < 1.6',
-            'pytest >= 2.4.2',
-            'py >= 1.4.17',
-            'pytest-flakes',
-            'pytest-pep8',
-            'pytest-cov',
-            'tox',
-            'pyquery',
             'mr.hermes',
             'setuptools-git',
             'readline',

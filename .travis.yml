@@ -4,9 +4,9 @@ python:
   - "2.7"
 install:
   - cd backend
-  - python setup.py dev
+  - pip install tox
 script:
-  - py.test --tb=native
+  - tox -- --tb=native
 notifications:
   irc:
     - "irc.freenode.org#pyfidelity"
