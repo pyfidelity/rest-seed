@@ -55,7 +55,6 @@ setup(name='foobar',
             'pyramid_debugtoolbar',
             'setuptools-git',
             'devpi-client',
-            'tox < 2',
         ],
     },
     entry_points="""
