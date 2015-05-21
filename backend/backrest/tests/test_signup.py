@@ -41,7 +41,7 @@ def test_signup_sends_confirmation_mail(browser, url, data, mailer, principals):
     assert 'auth_tkt' in result.test_app.cookies
 
 
-@fixture(scope='module')
+@fixture
 def confirm_url(views, testing, alice):
     token = views.signup.make_token(alice)
     return testing.route_url('signup', _query=dict(token=token))
