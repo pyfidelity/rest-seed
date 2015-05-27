@@ -68,7 +68,6 @@ def db_setup(**settings):
     db_session.registry.clear()
     db_session.configure(bind=engine)
     metadata.bind = engine
-    metadata.create_all(engine)
 
 
 def main(global_config, **settings):        # pragma: no cover, tests have own app setup
