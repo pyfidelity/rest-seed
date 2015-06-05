@@ -34,6 +34,7 @@
 
 from cornice.service import Service
 from datetime import datetime
+from pytz import utc
 from pyramid.security import remember, forget
 
 from .. import _, path, principals
@@ -44,7 +45,7 @@ def valid_user(request):
     password = request.json_body['password']
     user = principals.find_user(login=login)
     if user is not None and user.active and user.validate_password(password):
-        user.last_login_date = datetime.utcnow()
+        user.last_login_date = datetime.now(utc)
         request.response.headers.extend(remember(request, str(user.id)))
         request.user = user
     else:

@@ -1,4 +1,5 @@
 from datetime import datetime
+from pytz import utc
 from sqlalchemy import Column
 from sqlalchemy import DateTime
 from sqlalchemy import Integer
@@ -31,8 +32,8 @@ class Content(Base):
     owner = Column(Unicode())
     title = Column(Unicode())
     description = Column(UnicodeText())
-    creation_date = Column(DateTime(), nullable=False, default=datetime.utcnow)
-    modification_date = Column(DateTime(), nullable=False, default=datetime.utcnow)
+    creation_date = Column(DateTime(timezone=True), nullable=False, default=datetime.now(utc))
+    modification_date = Column(DateTime(timezone=True), nullable=False, default=datetime.now(utc))
 
     def __init__(self, **data):
         self.add(**data)
@@ -41,7 +42,7 @@ class Content(Base):
         """ Iterate over all columns and set values from data. """
         super(Content, self).update(**data)
         if touch and 'modification_date' not in data:
-            self.modification_date = datetime.utcnow()
+            self.modification_date = datetime.now(utc)
 
     def __json__(self, request):
         return dict(id=self.id, title=self.title,
