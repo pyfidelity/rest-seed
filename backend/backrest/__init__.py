@@ -6,6 +6,7 @@ from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
 from pyramid.renderers import JSON
 from pyramid.settings import asbool
+from sqlalchemy.orm.query import Query
 from transaction import commit
 
 from .models import db_session, metadata, Root
@@ -37,9 +38,21 @@ def timedelta_adapter(obj, request):
         return str(obj)
 
 
+def query_adapter(query, request):
+    class_ = query.column_descriptions[0]['entity']
+    filter_ = getattr(class_, '__json_filter__', lambda data, request: data)
+    results = []
+    for row in query:
+        if hasattr(row, '_asdict'):
+            row = filter_(row._asdict(), request)
+        results.append(row)
+    return results
+
+
 json_renderer = JSON()
 json_renderer.add_adapter(datetime, datetime_adapter)
 json_renderer.add_adapter(timedelta, timedelta_adapter)
+json_renderer.add_adapter(Query, query_adapter)
 
 
 def configure(global_config, **settings):
