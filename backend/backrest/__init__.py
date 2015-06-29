@@ -38,13 +38,19 @@ def timedelta_adapter(obj, request):
         return str(obj)
 
 
+def add_json_filter(request, func):
+    filters = vars(request).setdefault('_json_filters', [])
+    filters.append(func)
+
+
 def query_adapter(query, request):
-    class_ = query.column_descriptions[0]['entity']
-    filter_ = getattr(class_, '__json_filter__', lambda data, request: data)
+    filters = getattr(request, '_json_filters', [])
     results = []
     for row in query:
-        if hasattr(row, '_asdict'):
-            row = filter_(row._asdict(), request)
+        if hasattr(row, '_asdict'):     # `.with_entities` was used...
+            row = row._asdict()
+            for flt in filters:
+                row = flt(row, request)
         results.append(row)
     return results
 
@@ -64,6 +70,7 @@ def configure(global_config, **settings):
     config.set_authorization_policy(ACLAuthorizationPolicy())
     config.set_request_property(get_user, name='user', reify=True)
     config.set_root_factory(lambda request: Root())
+    config.add_request_method(add_json_filter)
     config.add_request_method(redirect)
     config.add_renderer('json', json_renderer)
     config.add_renderer('.html', 'pyramid_chameleon.zpt.renderer_factory')
