@@ -17,14 +17,12 @@ from .models.base import Base
 
 
 def get_user(request):
-    from .principals import Principal
     userid = authenticated_userid(request)
     if userid is not None:
         return Principal.query.get(userid)
 
 
 def find_user(login):
-    from .principals import Principal
     return Principal.query.filter(
         func.lower(Principal.email) == login.lower()).scalar()
 
