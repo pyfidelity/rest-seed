@@ -71,7 +71,8 @@ class Principal(Base):
 
     def __json__(self, request):
         return dict(id=self.id, email=self.email,
-            firstname=self.firstname, lastname=self.lastname)
+            firstname=self.firstname, lastname=self.lastname,
+            roles=list(self.global_roles))
 
     @property
     def fullname(self):
