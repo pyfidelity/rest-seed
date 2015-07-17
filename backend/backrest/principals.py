@@ -70,7 +70,7 @@ class Principal(Base):
                 setattr(self, key, data[key])
 
     def __json__(self, request):
-        return dict(id=self.id, email=self.email,
+        return dict(id=self.id, uuid=self.uuid, email=self.email,
             firstname=self.firstname, lastname=self.lastname,
             roles=list(self.global_roles))
 
