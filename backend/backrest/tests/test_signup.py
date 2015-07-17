@@ -22,6 +22,7 @@ def test_signup_success(browser, url, data, principals):
     user = principals.find_user(data['email'])
     assert user.firstname == 'Alice'
     assert user.lastname == 'Kingsleigh'
+    assert len(user.uuid) == 12
 
 
 def test_signup_sends_confirmation_mail(browser, url, data, mailer, principals):
