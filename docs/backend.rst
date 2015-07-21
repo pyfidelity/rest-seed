@@ -17,13 +17,13 @@ Testing
 Tests are written and run using the `the pytest framework <http://pytest.org/>`_. To run them simply use::
 
     $ cd backend/
-    $ make tests
+    $ bin/tox
 
-To run an individual test, use the `-k` parameter (see `the pytest documentation <http://pytest.org/latest/usage.html#specifying-tests-selecting-tests>`_).
+To run an individual test, use the `-k` parameter via `bin/tox -- -k ...` (see `the pytest documentation <http://pytest.org/latest/usage.html#specifying-tests-selecting-tests>`_).
 
 To create a coverage report, run::
 
-    $ bin/py.test --cov=backrest
+    $ bin/tox -- --cov=backrest
 
 This generates a report on the console, as well as a pretty report in `htmlcov/index.html` where you can browse the code and see which lines are not covered::
 
