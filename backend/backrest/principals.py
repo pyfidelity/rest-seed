@@ -6,10 +6,11 @@ from sqlalchemy import Boolean
 from sqlalchemy import Column
 from sqlalchemy import DateTime
 from sqlalchemy import ForeignKey
+from sqlalchemy import Index
 from sqlalchemy import func
-from sqlalchemy import Integer
-from sqlalchemy import String
+from sqlalchemy import text
 from sqlalchemy import Unicode
+from sqlalchemy.dialects import postgresql
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import relation, backref
 from uuid import uuid4
@@ -31,9 +32,13 @@ def find_user(login):
 
 class Principal(Base):
     """ An implementation of 'Principal', i.e. users and groups. """
-
-    id = Column(Integer, primary_key=True)
-    uuid = Column(String(12), index=True, unique=True, nullable=False)
+    __table_args__ = (
+        Index(
+            'ix_unique_short_uuid', text('substring(CAST(id AS text), 1, 8)'),
+            unique=True),)
+    id = Column(
+        postgresql.UUID(as_uuid=True),
+        primary_key=True, nullable=False)
     active = Column(Boolean)
     email = Column(Unicode(100), nullable=False, unique=True)
     password = Column(Unicode(100))
@@ -43,15 +48,8 @@ class Principal(Base):
     last_login_date = Column(DateTime(timezone=True))
     global_roles = association_proxy('global_roles_', 'role')
 
-    @classmethod
-    def short_uuid(cls, length=12):
-        while True:
-            uuid = str(uuid4()).replace('-', '')[:length]
-            if cls.query.filter_by(uuid=uuid).first() is None:
-                return uuid
-
     def __init__(self, email, active=True, **data):
-        self.uuid = self.short_uuid()
+        self.id = uuid4()
         self.email = email
         self.active = active
         self.add(**data)
@@ -69,8 +67,13 @@ class Principal(Base):
             if key in data and data[key] is not null:
                 setattr(self, key, data[key])
 
+    @property
+    def short_id(self):
+        return self.id.hex[:12]
+
     def __json__(self, request):
-        return dict(id=self.id, uuid=self.uuid, email=self.email,
+        return dict(
+            id=self.id.hex, short_id=self.short_id, email=self.email,
             firstname=self.firstname, lastname=self.lastname,
             roles=list(self.global_roles))
 
@@ -87,7 +90,8 @@ class Principal(Base):
 class GlobalRoles(Base):
     """ Global roles, which can be assigned to principals. """
 
-    principal_id = Column(Integer, ForeignKey(Principal.id), primary_key=True)
+    principal_id = Column(
+        postgresql.UUID(as_uuid=True), ForeignKey(Principal.id), primary_key=True)
     principal = relation(Principal, backref=backref('global_roles_',
         cascade='all, delete-orphan'))
     role = Column(Unicode(), primary_key=True)

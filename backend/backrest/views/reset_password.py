@@ -48,7 +48,7 @@ def forgot_password(request):
 
 def make_token(user):
     tokenizer = security.make_tokenizer(salt=service.name)
-    return tokenizer(dict(id=str(user.id), email=user.email))
+    return tokenizer(dict(id=user.id.hex, email=user.email))
 
 
 def send_password_reset_mail(user, request):

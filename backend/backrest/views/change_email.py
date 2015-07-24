@@ -48,7 +48,7 @@ service = Service(name='email-change', path=path('email/{token:.*}'),
 
 def make_token(user, email):
     tokenizer = security.make_tokenizer(salt=service.name)
-    return tokenizer((user.id, email))
+    return tokenizer((user.id.hex, email))
 
 
 def send_confirmation_mail(user, email, request):
@@ -73,7 +73,7 @@ def change_email(request):
     factory = security.make_factory(salt=service.name)
     id, email = factory(request)    # token payload is (id, email)
     user = request.user
-    if user is None or not user.id == id:
+    if user is None or not user.id.hex == id:
         raise HTTPForbidden
     user.update(email=email)
     return request.redirect(target='change_email.success')

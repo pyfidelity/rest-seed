@@ -18,7 +18,7 @@ def test_app_info(browser, url, alice):
     assert result['authenticated'] is True
     assert result['user']['email'] == alice.email
     assert result['user']['roles'] == []
-    assert result['user']['uuid'] == alice.uuid
+    assert result['user']['short_id'] == alice.short_id
 
 
 @mark.user('admin')

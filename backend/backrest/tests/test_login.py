@@ -10,7 +10,7 @@ def test_login_success(browser, url, alice):
     data = dict(login=alice.email, password='alice')
     result = browser.put_json(url, data)
     assert result.json['status'] == 'success'
-    assert result.json['user']['id'] == alice.id
+    assert result.json['user']['id'] == alice.id.hex
     assert result.json['user']['firstname'] == alice.firstname
     assert result.json['user']['email'] == alice.email
     assert 'auth_tkt' in result.test_app.cookies

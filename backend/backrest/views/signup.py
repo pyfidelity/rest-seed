@@ -64,7 +64,7 @@ def signup_user(request, **data):
 
 def make_token(user):
     tokenizer = security.make_tokenizer(salt=service.name)
-    return tokenizer(dict(id=user.id, email=user.email))
+    return tokenizer(dict(id=user.id.hex, email=user.email))
 
 
 def send_confirmation_mail(user, request):
