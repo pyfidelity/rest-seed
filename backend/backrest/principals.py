@@ -1,6 +1,4 @@
 from colander import null
-from datetime import datetime
-from pytz import utc
 from pyramid.security import authenticated_userid
 from sqlalchemy import Boolean
 from sqlalchemy import Column
@@ -17,6 +15,7 @@ from uuid import uuid4
 
 from . import security
 from .models.base import Base
+from .utils import utcnow
 
 
 def get_user(request):
@@ -44,7 +43,7 @@ class Principal(Base):
     password = Column(Unicode(100))
     firstname = Column(Unicode())
     lastname = Column(Unicode())
-    creation_date = Column(DateTime(timezone=True), nullable=False, default=datetime.now(utc))
+    creation_date = Column(DateTime(timezone=True), nullable=False, default=utcnow)
     last_login_date = Column(DateTime(timezone=True))
     global_roles = association_proxy('global_roles_', 'role')
 
@@ -53,7 +52,6 @@ class Principal(Base):
         self.email = email
         self.active = active
         self.add(**data)
-        self.creation_date = datetime.now(utc)
 
     def __repr__(self):  # pragma: no cover
         return '<Principal %r>' % (self.fullname or self.email)

@@ -1,3 +1,4 @@
+from datetime import datetime
 from html2text import HTML2Text
 from os import environ
 from pyramid.httpexceptions import HTTPFound
@@ -5,6 +6,7 @@ from pyramid.renderers import render
 from pyramid.threadlocal import get_current_registry
 from pyramid.threadlocal import get_current_request
 from pyramid_mailer.message import Message
+from pytz import utc
 from sqlalchemy import engine_from_config
 
 
@@ -48,3 +50,7 @@ def redirect(request, target, params=(), **kw):
     key = 'redirect.%s' % target
     url = request.registry.settings[key] % params
     return HTTPFound(location=url, **kw)
+
+
+def utcnow():
+    return datetime.now(utc)

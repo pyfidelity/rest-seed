@@ -1,5 +1,3 @@
-from datetime import datetime
-from pytz import utc
 from sqlalchemy import Column
 from sqlalchemy import DateTime
 from sqlalchemy import Integer
@@ -8,6 +6,7 @@ from sqlalchemy import Unicode
 from sqlalchemy import UnicodeText
 from sqlalchemy.util import classproperty
 
+from ..utils import utcnow
 from .base import Base
 
 
@@ -32,8 +31,8 @@ class Content(Base):
     owner = Column(Unicode())
     title = Column(Unicode())
     description = Column(UnicodeText())
-    creation_date = Column(DateTime(timezone=True), nullable=False, default=datetime.now(utc))
-    modification_date = Column(DateTime(timezone=True), nullable=False, default=datetime.now(utc))
+    creation_date = Column(DateTime(timezone=True), nullable=False, default=utcnow)
+    modification_date = Column(DateTime(timezone=True), nullable=False, default=utcnow)
 
     def __init__(self, **data):
         self.add(**data)
@@ -42,7 +41,7 @@ class Content(Base):
         """ Iterate over all columns and set values from data. """
         super(Content, self).update(**data)
         if touch and 'modification_date' not in data:
-            self.modification_date = datetime.now(utc)
+            self.modification_date = utcnow()
 
     def __json__(self, request):
         return dict(id=self.id, title=self.title,
