@@ -9,11 +9,13 @@ from sqlalchemy import func
 from sqlalchemy import text
 from sqlalchemy import Unicode
 from sqlalchemy.dialects import postgresql
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import relation, backref
 from uuid import uuid4
 
 from . import security
+from .models import db_session
 from .models.base import Base
 from .utils import utcnow
 
@@ -48,9 +50,18 @@ class Principal(Base):
     global_roles = association_proxy('global_roles_', 'role')
 
     def __init__(self, email, active=True, **data):
-        self.id = uuid4()
         self.email = email
         self.active = active
+        # add uuid, but catch duplicated according to the unique index above...
+        while True:
+            self.id = uuid4()
+            db_session.add(self)
+            try:
+                db_session.flush()
+            except IntegrityError:
+                db_session.rollback()
+            else:
+                break
         self.add(**data)
 
     def __repr__(self):  # pragma: no cover
