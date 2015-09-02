@@ -45,5 +45,6 @@ def test_short_uuid_conflict(principals, alice):
     # give bob a unique id which only differs in the last field...
     bad = UUID(fields=alice.id.fields[:-1] + (alice.id.fields[-1] + 1,))
     good = UUID(fields=(alice.id.fields[0] + 1,) + alice.id.fields[1:])
-    with patch('backrest.principals.uuid4', side_effect=iter([bad, good])):
+    with patch('backrest.principals.uuid4', side_effect=iter([bad, good])) as mock:
         principals.Principal(email=u'bob@foo.bar', password=u'bob', name=u'Bob')
+    assert mock.call_count == 2
