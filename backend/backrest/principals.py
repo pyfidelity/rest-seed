@@ -55,12 +55,14 @@ class Principal(Base):
         # add uuid, but catch duplicated according to the unique index above...
         while True:
             self.id = uuid4()
+            savepoint = db_session.begin_nested()
             db_session.add(self)
             try:
                 db_session.flush()
             except IntegrityError:
-                db_session.rollback()
+                savepoint.rollback()
             else:
+                savepoint.commit()
                 break
         self.add(**data)
 
