@@ -80,7 +80,7 @@ class Principal(Base):
 
     @property
     def short_id(self):
-        return self.id.hex[:12]
+        return self.id.hex[:8]
 
     def __json__(self, request):
         return dict(
