@@ -55,6 +55,7 @@ setup(name='foobar',
             'setuptools-git',
             'readline',
             'devpi-client',
+            'tox < 2',
         ],
     },
     entry_points="""
