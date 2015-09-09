@@ -5,6 +5,7 @@ from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
 from pyramid.renderers import JSON
+from pyramid.settings import asbool
 from transaction import commit
 
 from .models import db_session, metadata, Root
@@ -55,7 +56,7 @@ def configure(global_config, **settings):
     config.add_renderer('.html', 'pyramid_chameleon.zpt.renderer_factory')
     config.include('.views.download')
     config.include('cornice')
-    if settings.get('testing'):
+    if asbool(settings.get('testing')):
         config.include('.testing')
     config.scan(ignore=['.testing', '.tests'])
     config.commit()
