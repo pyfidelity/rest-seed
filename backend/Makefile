@@ -8,6 +8,7 @@ bin/pserve bin/devpi: bin/python setup.py
 
 bin/python bin/pip:
 	virtualenv .
+	bin/pip install --upgrade setuptools pip
 
 upload: setup.py bin/devpi
 	PATH=${PWD}/bin:${PATH} bin/devpi upload --no-vcs --with-docs
