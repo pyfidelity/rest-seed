@@ -8,3 +8,5 @@ class Root(object):
     __acl__ = [
         (Allow, Authenticated, ['create', 'view']),
     ]
+
+    id = 'root'

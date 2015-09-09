@@ -50,11 +50,11 @@ def list_roles_callback(username, request):
     from .models import Content
     from .principals import Principal, GlobalRoles
     roles = []
-    user_id = int(username)
     context = getattr(request, 'context', None)
-    if isinstance(context, Principal) and context.id == user_id:
+    # TODO: use uuids for content owner and properly compare them here...
+    if isinstance(context, Principal) and str(context.id) == username:
         roles.append('owner')
-    elif isinstance(context, Content) and context.owner_id == user_id:
+    elif isinstance(context, Content) and context.owner == username:
         roles.append('owner')
     for role in GlobalRoles.query.filter_by(principal_id=username):
         roles.append('role:%s' % role.role)
