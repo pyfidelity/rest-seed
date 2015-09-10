@@ -6,7 +6,6 @@ install:
   - git fetch --unshallow
   - cd backend
   - pip install --upgrade setuptools pip
-  - pip install setuptools-git
   - pip install tox
 script:
   - tox -- --tb=native
