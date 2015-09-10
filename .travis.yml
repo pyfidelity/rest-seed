@@ -4,6 +4,8 @@ python:
   - "2.7"
 install:
   - cd backend
+  - pip install --upgrade setuptools pip
+  - pip install setuptools-git
   - pip install tox
 script:
   - tox -- --tb=native
