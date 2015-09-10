@@ -8,6 +8,7 @@ install:
   - pip install setuptools-git
   - pip install tox
 script:
+  - git describe --tags --long --dirty
   - tox -- --tb=native
 notifications:
   irc:
