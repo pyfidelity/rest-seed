@@ -12,3 +12,4 @@ notifications:
     - "irc.freenode.org#pyfidelity"
   email:
     - mail@pyfidelity.com
+sudo: false
