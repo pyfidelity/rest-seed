@@ -3,12 +3,12 @@ language:
 python:
   - "2.7"
 install:
+  - git fetch --unshallow
   - cd backend
   - pip install --upgrade setuptools pip
   - pip install setuptools-git
   - pip install tox
 script:
-  - git describe --tags --long --dirty
   - tox -- --tb=native
 notifications:
   irc:
@@ -16,7 +16,3 @@ notifications:
   email:
     - mail@pyfidelity.com
 sudo: false
-addons:
-  apt:
-    packages:
-    - git
